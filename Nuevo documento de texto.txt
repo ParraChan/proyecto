@@ -1,0 +1,16 @@
+3 tablas de cajon
+USUARIOS (trabajadores de la financiera)
+CLIENTES
+CREDITOS
+
+login con 3 tipos de acceso 'ASESOR', 'CAPTURISTA' y 'SUPERVISOR'
+
+El CAPTURISTA puede registrar clientes y creditos (sin asignar asesor)
+
+El SUPERVISOR solo puede asignar un credito a un asesor, asi como cambiar el estatus PAGADO y PENDIENTE
+
+El CAPTURISTA y SUPERVISOR deben poder buscar y ver los clientes
+
+El CAPTURISTA y SUPERVISOR deben poder buscar y ver los creditos de un cliente  
+
+ 
