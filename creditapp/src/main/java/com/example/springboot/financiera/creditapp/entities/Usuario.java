@@ -3,14 +3,22 @@ package com.example.springboot.financiera.creditapp.entities;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuarios")
@@ -29,20 +37,28 @@ public class Usuario {
     @NotEmpty(message = "El apellido materno no puede estar vacio")
     private String apellido_materno;
 
-    @NotEmpty(message = "La fecha de nacimiento es obligatoria")
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fecha_nacimiento;
 
-    @NotEmpty(message = "La fecha de ingreso es obligatoria")
+    @NotNull(message = "La fecha de ingreso es obligatoria")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fecha_ingreso;
 
-    //puesto
+    @ManyToOne
+    @JoinColumn(name = "puesto", referencedColumnName = "id_rol")
+    @JsonManagedReference
+    private Rol rol;
 
-    public Long getId_cliente() {
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Credito> creditos;
+
+    public Long getId_usuario() {
         return id_usuario;
     }
 
-    public void setId_cliente(Long id_cliente) {
-        this.id_usuario = id_cliente;
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getNombre() {
@@ -84,6 +100,27 @@ public class Usuario {
     public void setFecha_ingreso(LocalDate fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
+
+
+    public List<Credito> getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(List<Credito> creditos) {
+        this.creditos = creditos;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+  
+
+    
 
     
 

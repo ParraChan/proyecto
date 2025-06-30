@@ -3,6 +3,7 @@ package com.example.springboot.financiera.creditapp.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,8 @@ import  static jakarta.persistence.GenerationType.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -39,6 +42,11 @@ public class Cliente {
 
     @NotNull(message = "debes agregar tus ingresos")
     private BigDecimal ingresos_mensuales;
+
+    //@JsonIgnore
+    @OneToMany(mappedBy = "cliente")
+    private List<Credito> creditos = new ArrayList<>();
+    
 
     public Long getId_cliente() {
         return id_cliente;
@@ -86,6 +94,14 @@ public class Cliente {
 
     public void setIngresos_mensuales(BigDecimal ingresos_mensuales) {
         this.ingresos_mensuales = ingresos_mensuales;
+    }
+
+    public List<Credito> getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(List<Credito> creditos) {
+        this.creditos = creditos;
     }
 
 

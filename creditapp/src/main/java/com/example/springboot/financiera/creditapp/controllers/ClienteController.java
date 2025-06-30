@@ -57,7 +57,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @PathVariable Long id, @RequestBody Cliente cliente, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody Cliente cliente, BindingResult result) {
     
     
         if (result.hasErrors()) return validation(result);
