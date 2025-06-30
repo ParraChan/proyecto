@@ -5,11 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import  static jakarta.persistence.GenerationType.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "clientes")
@@ -28,10 +32,12 @@ public class Cliente {
     @NotEmpty(message = "El apellido materno no puede estar vacio")
     private String apellido_materno;
 
-    @NotEmpty(message = "La fecha de nacimiento es obligatoria")
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @Past(message = "La fecha de nacimiento es en el pasado")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha_nacimiento;
 
-    @NotEmpty(message = "debes agregar tus ingresos")
+    @NotNull(message = "debes agregar tus ingresos")
     private BigDecimal ingresos_mensuales;
 
     public Long getId_cliente() {

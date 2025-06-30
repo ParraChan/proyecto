@@ -5,6 +5,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -32,6 +34,8 @@ public class Usuario {
 
     @NotEmpty(message = "La fecha de ingreso es obligatoria")
     private LocalDate fecha_ingreso;
+
+    //puesto
 
     public Long getId_cliente() {
         return id_usuario;
