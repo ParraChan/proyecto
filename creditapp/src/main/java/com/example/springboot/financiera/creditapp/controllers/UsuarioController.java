@@ -46,10 +46,10 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Usuario usuario, BindingResult result){
-    if (result.hasErrors()) {
-        return validation(result);
-    }
-    return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));        
+        if (result.hasErrors()) {
+            return validation(result);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));        
     }
 
 

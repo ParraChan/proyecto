@@ -3,23 +3,26 @@ package com.example.springboot.financiera.creditapp.entities;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class, 
+  property = "id_usuario")
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -44,14 +47,15 @@ public class Usuario {
     @NotNull(message = "La fecha de ingreso es obligatoria")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fecha_ingreso;
-
-    @ManyToOne
-    @JoinColumn(name = "puesto", referencedColumnName = "id_rol")
-    @JsonManagedReference
-    private Rol rol;
-
+     
+    @JsonIgnoreProperties("usuarios") 
+    @NotNull(message = "El rol es obligatorio")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rol")
+    private Rol puesto;
+    /* 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Credito> creditos;
+    private List<Credito> creditos;*/
 
     public Long getId_usuario() {
         return id_usuario;
@@ -102,6 +106,17 @@ public class Usuario {
     }
 
 
+    public Rol getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(Rol puesto) {
+        this.puesto = puesto;
+    }
+
+
+
+/* 
     public List<Credito> getCreditos() {
         return creditos;
     }
@@ -109,18 +124,13 @@ public class Usuario {
     public void setCreditos(List<Credito> creditos) {
         this.creditos = creditos;
     }
+        */
 
-    public Rol getRol() {
-        return rol;
-    }
+        
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
+        
 
-  
 
-    
 
     
 

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "clientes")
@@ -43,7 +44,7 @@ public class Cliente {
     @NotNull(message = "debes agregar tus ingresos")
     private BigDecimal ingresos_mensuales;
 
-    //@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Credito> creditos = new ArrayList<>();
     
