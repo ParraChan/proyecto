@@ -23,8 +23,8 @@ CREATE TABLE usuarios (
 	apellido_materno VARCHAR(45) NOT NULL,
 	fecha_nacimiento DATE NOT NULL,
 	fecha_ingreso DATE NOT NULL,
-	puesto INT NOT NULL,
-	FOREIGN KEY (puesto) REFERENCES roles(id_rol)
+	id_rol INT NOT NULL,
+	FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
 );
 
 CREATE TABLE creditos (
@@ -33,7 +33,7 @@ CREATE TABLE creditos (
 	fecha_entrega DATE NOT NULL,
 	numero_pagos ENUM('10', '12', '16', '24') NOT NULL,
 	frecuencia_pagos ENUM('semanal', 'quincenal', 'mensual') NOT NULL,
-	estatus_pago ENUM('Pagado', 'Pendiente de pago') NOT NULL,
+	estatus_pago ENUM('Pagado', 'Pendiente') NOT NULL,
 	id_cliente INT NOT NULL,
 	id_usuario INT NULL,
 	FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente),
