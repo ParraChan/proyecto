@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "./navbar/navbar.component";
-import { ClienteComponent } from "./cliente/cliente.component";
 import { Cliente } from '../models/cliente';
 import { ClienteService } from '../services/cliente.service';
-import { ClienteFormComponent } from './cliente-form/cliente-form.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({

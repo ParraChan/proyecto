@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Cliente } from '../../models/cliente';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cliente',
@@ -9,13 +10,17 @@ import { Cliente } from '../../models/cliente';
 })
 export class ClienteComponent {
 
-  @Input() clientes : Cliente[]= [];
+  clientes : Cliente[]= [];
 
-  @Output() idClientEventEmitter = new EventEmitter();
+   idClientEventEmitter = new EventEmitter();
 
-  @Output() selectedClientEventEmitter = new EventEmitter();
+  selectedClientEventEmitter = new EventEmitter();
   
   title: string= 'Listado de Clientes';
+
+  constructor(private router: Router){
+    this.clientes = this.router.getCurrentNavigation()?.extras.state!['clientes'];
+  }
 
 
   onRemoveClient(id: number):void{
