@@ -32,10 +32,16 @@
     required>
 
     <div>
-        <button type="submit" class="btn btn-primary my-2"
+        <button type="submit" class="btn btn-primary m-2"
         [disabled]="userForm.invalid">
-                Agregar cliente
+                {{(cliente.id_cliente > 0)? 'Actualizar': 'Crear'}}
         </button>
+        <button class="btn btn-secondary my-2"
+        (click)="onClear(userForm)" 
+        >
+            Limpiar
+        </button>
+
     </div>
 
 </form>

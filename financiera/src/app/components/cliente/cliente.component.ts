@@ -13,13 +13,19 @@ export class ClienteComponent {
 
   @Output() idClientEventEmitter = new EventEmitter();
 
+  @Output() selectedClientEventEmitter = new EventEmitter();
+  
+  title: string= 'Listado de Clientes';
+
 
   onRemoveClient(id: number):void{
     const confirmRemove =confirm('Estas seguro que deseas eliminar')
     if(confirmRemove){
   this.idClientEventEmitter.emit(id)
     }
-   
   }
+     onSelectedClient(cliente: Cliente){
+      this.selectedClientEventEmitter.emit(cliente)
+    }
 
 }

@@ -1,22 +1,7 @@
 <navbar></navbar>
 
 <div class="container my-4">
+    <router-outlet></router-outlet>
 
-
-
-
-    <div class="row">
-            <div class="col">
-                <cliente-form (newClientEventEmitter)="addClient($event)"></cliente-form>
-
-            </div>
-        <div class="col">
-            
-            <cliente [clientes]="clientes" (idClientEventEmitter)="removeClient($event)"></cliente>
-            
-
-
-        </div>
-    </div>
 </div>
 

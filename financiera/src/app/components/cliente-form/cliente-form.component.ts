@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 
@@ -10,7 +10,7 @@ import { Cliente } from '../../models/cliente';
 })
 export class ClienteFormComponent {
 
-  cliente: Cliente;
+  @Input() cliente: Cliente;
 
   @Output() newClientEventEmitter: EventEmitter<Cliente>= new EventEmitter();
 
@@ -27,6 +27,12 @@ export class ClienteFormComponent {
   
     userForm.resetForm();
     userForm.reset();
+  }
+  onClear(userForm: NgForm):void{
+    this.cliente= new Cliente();
+      userForm.resetForm();
+      userForm.reset();
+
   }
 
 
