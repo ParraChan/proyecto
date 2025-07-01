@@ -1,0 +1,36 @@
+@if(clientes.length==0){
+            <div class="alert alert-warning">No hay registros</div> 
+            }@else {
+                <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido paterno</th>
+                        <th>Apellido materno</th>
+                        <th>Ingresos</th>
+                        <th>Eliminar</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (cliente of clientes; track $index) {
+
+                    <tr>
+                        <td> {{cliente.nombre}} </td>
+                        <td> {{cliente.apellido_paterno}}</td>
+                        <td> {{cliente.apellido_materno}}</td>
+                        <td> {{cliente.ingresos_mensuales}}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                            (click)="onRemoveClient(cliente.id_cliente)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    }
+                
+                </tbody>
+            </table>
+
+            }

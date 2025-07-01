@@ -3,6 +3,6 @@ export class Cliente{
     nombre!: string;
     apellido_paterno!: string;
     apellido_materno!: string;
-    fecha_nacimiento!: Date;
+    fecha_nacimiento!: string;
     ingresos_mensuales!: number;
 }   

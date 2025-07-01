@@ -4,8 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-creditos-form',
   standalone: true,
   imports: [],
-  templateUrl: './creditos-form.component.html',
-  styleUrl: './creditos-form.component.css'
+  templateUrl: './creditos-form.component.html'
 })
 export class CreditosFormComponent {
 
