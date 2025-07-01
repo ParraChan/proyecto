@@ -3,29 +3,26 @@ package com.example.springboot.financiera.creditapp.entities;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id_usuario")
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
+
+    @Entity
+    @Table(name = "usuarios")
+    public class Usuario {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -50,12 +47,12 @@ public class Usuario {
      
     @JsonIgnoreProperties("usuarios") 
     @NotNull(message = "El rol es obligatorio")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "id_rol")
     private Rol puesto;
-    /* 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Credito> creditos;*/
+ 
+    @OneToMany(mappedBy = "usuario")
+    private List<Credito> creditos;
 
     public Long getId_usuario() {
         return id_usuario;
@@ -115,8 +112,6 @@ public class Usuario {
     }
 
 
-
-/* 
     public List<Credito> getCreditos() {
         return creditos;
     }
@@ -124,13 +119,7 @@ public class Usuario {
     public void setCreditos(List<Credito> creditos) {
         this.creditos = creditos;
     }
-        */
-
         
-
-        
-
-
 
     
 

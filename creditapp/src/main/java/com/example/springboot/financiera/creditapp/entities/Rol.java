@@ -3,11 +3,6 @@ package com.example.springboot.financiera.creditapp.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,12 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class, 
-  property = "id_rol")
-@Entity
-@Table(name = "roles")
-public class Rol {
+
+    @Entity
+    @Table(name = "roles")
+    public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

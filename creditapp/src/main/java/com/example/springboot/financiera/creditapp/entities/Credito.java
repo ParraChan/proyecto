@@ -1,58 +1,57 @@
 package com.example.springboot.financiera.creditapp.entities;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
-import com.example.springboot.financiera.creditapp.exceptions.EstatusPagoConverter;
-import com.example.springboot.financiera.creditapp.exceptions.FrecuenciaPagosConverter;
-import com.example.springboot.financiera.creditapp.exceptions.NumeroPagosConverter;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "creditos")
 public class Credito {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id_credito;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_credito")
+    private Integer id_credito;
 
-    @NotEmpty(message = "monto de credito es obligatiorio")
+    @Column(name = "monto_credito", nullable = false)
     private BigDecimal monto_credito;
 
-    @NotNull(message = "Seleccione una fecha de entrega")
+    @Column(name = "fecha_entrega", nullable = false)
     private LocalDate fecha_entrega;
 
-    @Convert(converter = NumeroPagosConverter.class)
-    @NotNull(message = "no puede ser nulo")
-    private NumeroPagos numero_pagos;
+    // Usamos String para enums para mantener simple y evitar clases extra
+    @Column(name = "numero_pagos", nullable = false, columnDefinition = "ENUM('10', '12', '16', '24')")
+    private String numero_pagos;
 
-    @Convert(converter = EstatusPagoConverter.class)
-    @NotNull(message = "no puede ser nulo")
-    private FrecuenciaPagos frecuencia_pagos;
+    @Column(name = "frecuencia_pagos", nullable = false, columnDefinition = "ENUM('semanal', 'quincenal', 'mensual')")
+    private String frecuencia_pagos;
 
-    @Convert(converter = FrecuenciaPagosConverter.class)
-    @NotNull(message = "no puede ser nulo")
-    private EstatusPago estatus_pago;
+    @Column(name = "estatus_pago", nullable = false, columnDefinition = "ENUM('Pagado', 'Pendiente')")
+    private String estatus_pago;
+    
+    @JsonIgnoreProperties("creditos")
+    @NotNull(message = "El id del ciente es necesario ")
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
+    private Cliente cliente;
 
-    public Long getId_credito() {
+
+    @JsonIgnoreProperties("creditos")
+    @NotNull(message = "El id del ciente es necesario ")
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
+
+    public Integer getId_credito() {
         return id_credito;
     }
 
-    public void setId_credito(Long id_credito) {
+    public void setId_credito(Integer id_credito) {
         this.id_credito = id_credito;
     }
 
@@ -72,29 +71,32 @@ public class Credito {
         this.fecha_entrega = fecha_entrega;
     }
 
-    public NumeroPagos getNumero_pagos() {
+    public String getNumero_pagos() {
         return numero_pagos;
     }
 
-    public void setNumero_pagos(NumeroPagos numero_pagos) {
+    public void setNumero_pagos(String numero_pagos) {
         this.numero_pagos = numero_pagos;
     }
 
-    public FrecuenciaPagos getFrecuencia_pagos() {
+    public String getFrecuencia_pagos() {
         return frecuencia_pagos;
     }
 
-    public void setFrecuencia_pagos(FrecuenciaPagos frecuencia_pagos) {
+    public void setFrecuencia_pagos(String frecuencia_pagos) {
         this.frecuencia_pagos = frecuencia_pagos;
     }
 
-    public EstatusPago getEstatus_pago() {
+    public String getEstatus_pago() {
         return estatus_pago;
     }
 
-    public void setEstatus_pago(EstatusPago estatus_pago) {
+    public void setEstatus_pago(String estatus_pago) {
         this.estatus_pago = estatus_pago;
     }
+
+  
+
 
     public Cliente getCliente() {
         return cliente;
@@ -111,82 +113,4 @@ public class Credito {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-
-    
-    public enum NumeroPagos {
-    DIEZ("10"),
-    DOCE("12"),
-    DIECISEIS("16"),
-    VEINTICUATRO("24");
-
-    private final String value;
-
-    NumeroPagos(String value) {
-        this.value = value;
-    }
-
-    @JsonValue
-    public String getValue() {
-        return value;
-    }
-
-    @JsonCreator
-    public static NumeroPagos fromValue(String value) {
-        for (NumeroPagos np : NumeroPagos.values()) {
-            if (np.value.equals(value)) {
-                return np;
-            }
-        }
-        throw new IllegalArgumentException("Valor desconocido: " + value);
-    }
-}
- 
-
-
-
-    public enum FrecuenciaPagos {
-    DIARIO,
-    SEMANAL,
-    MENSUAL
-}
-
-
-    public enum EstatusPago {
-    Pagado("Pagado"),
-    Pendiente_de_pago("Pendiente de pago");
-
-    private final String descripcion;
-
-    EstatusPago(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    @JsonValue
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    @JsonCreator
-    public static EstatusPago fromDescripcion(String descripcion) {
-        for (EstatusPago e : EstatusPago.values()) {
-            if (e.descripcion.equals(descripcion)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Valor desconocido: " + descripcion);
-    }
-}
-
-
-
-
-
 }
