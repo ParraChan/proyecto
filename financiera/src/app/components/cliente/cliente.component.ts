@@ -36,7 +36,8 @@ export class ClienteComponent {
     
   }
      onSelectedClient(cliente: Cliente){
-      this.sharingData.selectedClientEventEmitter.emit(cliente)
+        this.router.navigate(['/clientes/editar',cliente.id_cliente],{state: {cliente}});
+
     }
 
 }

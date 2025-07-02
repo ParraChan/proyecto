@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
+import { SharingDataService } from '../../services/sharing-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'usuario-form',
@@ -12,15 +14,21 @@ export class UsuarioFormComponent {
 
     @Input() usuario: Usuario;
   
-    @Output() newUserEventEmitter: EventEmitter<Usuario>= new EventEmitter();
   
-    constructor(){
-      this.usuario = new Usuario();
+    constructor(private sharingData: SharingDataService,
+      private router: Router
+    ){
+        if(this.router.getCurrentNavigation()?.extras.state){
+      this.usuario = this.router.getCurrentNavigation()?.extras.state!['usuario'];
+
+      }else{
+        this.usuario = new Usuario();
+      }
     }
   
     onSubmit(userForm: NgForm): void{
       if(userForm.valid){
-          this.newUserEventEmitter.emit(this.usuario);
+          this.sharingData.newUserEventEmitter.emit(this.usuario);
       console.log(this.usuario);
   
       }

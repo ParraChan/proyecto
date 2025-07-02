@@ -1,1 +1,54 @@
-<p>creditos-form works!</p>
+<form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+
+
+    <input placeholder="monto"
+    name="monto_credito"
+    [(ngModel)]="credito.monto_credito"
+    class="form-control my-2"
+    required>
+
+    <input placeholder="Fecha"
+    name="fecha_entrega"
+    [(ngModel)]="credito.fecha_entrega"
+    class="form-control my-2"
+    required>
+
+    <input placeholder="Numero de pagos"
+    name="numero_pagos"
+    [(ngModel)]="credito.numero_pagos"
+    class="form-control my-2"
+    required>
+
+    <input placeholder="Frecuencia de pagos"
+    name="frecuencia_pagos"
+    [(ngModel)]="credito.frecuencia_pagos"
+    class="form-control my-2"
+    required>
+
+    <input placeholder="Estado de pago"
+    name="estatus_pago"
+    [(ngModel)]="credito.estatus_pago"
+    class="form-control my-2"
+    required>
+
+    <input placeholder="Cliente"
+    name="cliente"
+    [(ngModel)]="credito.cliente"
+    class="form-control my-2"
+    required>
+    
+
+    <div>
+        <button type="submit" class="btn btn-primary m-2"
+        [disabled]="userForm.invalid">
+                {{(credito.id_credito)? 'Actualizar': 'Crear'}}
+        </button>
+        <button class="btn btn-secondary my-2"
+        (click)="onClear(userForm)" 
+        >
+            Limpiar
+        </button>
+
+    </div>
+
+</form>

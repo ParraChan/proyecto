@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Credito } from '../../models/credito';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Router } from '@angular/router';
+import { CreditoService } from '../../services/credito.service';
 
 @Component({
   selector: 'credito',
@@ -17,24 +18,23 @@ export class CreditoComponent {
     constructor(
       private sharingData : SharingDataService,
       private router: Router,
-      private serviceC: Credito,
+      private service: CreditoService,
     ){
       if(this.router.getCurrentNavigation()?.extras.state){
-      this.clientes = this.router.getCurrentNavigation()?.extras.state!['clientes'];
+      this.creditos = this.router.getCurrentNavigation()?.extras.state!['creditos'];
   
       }else{
-        this.service.findAll().subscribe( clientes => this.clientes= clientes);
+        this.service.findAll().subscribe( creditos => this.creditos= creditos);
       }
     }
   
-  
-    onRemoveClient(id: number):void{
+    onRemoveCredit(id: number):void{
       
-    this.sharingData.idClientEventEmitter.emit(id)
+    this.sharingData.idCreditEventEmitter.emit(id)
       
     }
-       onSelectedClient(cliente: Cliente){
-        this.sharingData.selectedClientEventEmitter.emit(cliente)
+       onSelectedCredit(credito: Credito){
+        this.router.navigate(['/creditos/editar',credito.id_credito],{state: {credito}});
       }
 
 }

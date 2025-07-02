@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Credito } from '../models/credito';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +44,8 @@ export class CreditoService {
   ]
 
   constructor() { }
+
+  findAll(): Observable<Credito[]>{
+    return of(this.creditos);
+  }
 }

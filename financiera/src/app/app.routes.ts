@@ -5,14 +5,16 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioFormComponent } from './components/usuario-form/usuario-form.component';
 import { CreditoComponent } from './components/credito/credito.component';
 import { CreditosFormComponent } from './components/credito-form/creditos-form.component';
+import { ActualizarComponent } from './components/actualizar/actualizar.component';
 
 export const routes: Routes = [
+    /* 
     {
         path:'',
         pathMatch:'full',
         redirectTo: '/'
     },
-
+*/
     {
         path: 'clientes',
         component: ClienteComponent,
@@ -49,6 +51,10 @@ export const routes: Routes = [
     {
         path: 'creditos/editar/:id',
         component: CreditosFormComponent,
+    },
+    {
+        path: 'actualizar',
+        component: ActualizarComponent,
     }
 
     
