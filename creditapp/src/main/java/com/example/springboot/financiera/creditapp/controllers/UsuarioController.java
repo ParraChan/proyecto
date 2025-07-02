@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +51,37 @@ public class UsuarioController {
             return validation(result);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));        
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Usuario usuario, BindingResult result){
+        if (result.hasErrors()) return validation(result);
+
+        Optional<Usuario> usuarOptional = usuarioService.findById(id);
+        if(usuarOptional.isPresent()){
+            Usuario usuarioDb= usuarOptional.get();
+            usuarioDb.setNombre(usuario.getNombre());
+            usuarioDb.setApellido_paterno(usuario.getApellido_paterno());
+            usuarioDb.setApellido_materno(usuario.getApellido_materno());
+            usuarioDb.setFecha_nacimiento(usuario.getFecha_nacimiento());
+            usuarioDb.setFecha_ingreso(usuario.getFecha_ingreso());
+            usuarioDb.setPuesto(usuario.getPuesto());
+
+            return ResponseEntity.ok(usuarioService.save(usuarioDb));
+
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro usuario para actualizar "));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        Optional<Usuario> usuarOptional = usuarioService.findById(id);
+        if(usuarOptional.isPresent()){
+            usuarioService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro usuario para eliminar "));
+
     }
 
 
