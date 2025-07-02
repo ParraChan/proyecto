@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../../models/cliente';
 import { Router, RouterModule } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
@@ -10,7 +10,7 @@ import { SharingDataService } from '../../services/sharing-data.service';
   imports: [RouterModule],
   templateUrl: './cliente.component.html'
 })
-export class ClienteComponent {
+export class ClienteComponent implements OnInit {
 
   clientes : Cliente[]= [];
   
@@ -19,14 +19,12 @@ export class ClienteComponent {
   constructor(
     private sharingData : SharingDataService,
     private router: Router,
-    private service: ClienteService,
-  ){
-    if(this.router.getCurrentNavigation()?.extras.state){
-    this.clientes = this.router.getCurrentNavigation()?.extras.state!['clientes'];
+    private service: ClienteService,){
 
-    }else{
+  }
+  ngOnInit(): void {
       this.service.findAll().subscribe( clientes => this.clientes= clientes);
-    }
+
   }
 
 
@@ -36,7 +34,7 @@ export class ClienteComponent {
     
   }
      onSelectedClient(cliente: Cliente){
-        this.router.navigate(['/clientes/editar',cliente.id_cliente],{state: {cliente}});
+        this.router.navigate(['/clientes/editar',cliente.id_cliente]);
 
     }
 

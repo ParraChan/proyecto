@@ -81,12 +81,18 @@ export class FinancieraAppComponent implements OnInit {
   addClient(){
     this.sharingData.newClientEventEmitter.subscribe(cliente=>{
        if(cliente.id_cliente>0){
-      this.clientes= this.clientes.map(c => (c.id_cliente == cliente.id_cliente)?{... cliente}:c)
+        this.service.update(cliente).subscribe(clienteUpdated=>{
+      this.clientes= this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente)?{... clienteUpdated}:c)
+        });
     }else{
-    this.clientes =[... this.clientes, {... cliente, id_cliente: new Date().getTime()}]
+      this.service.create(cliente).subscribe(clienteNew=>{
+            
+        this.clientes =[... this.clientes, {... clienteNew}]
+
+      })
 
     }
-              this.router.navigate(['/clientes'],{state:{clientes: this.clientes}});
+              this.router.navigate(['/clientes']);
 
     Swal.fire({
                 title: "Cliente creado",
@@ -120,10 +126,15 @@ export class FinancieraAppComponent implements OnInit {
           confirmButtonText: "Si, borralo"
         }).then((result) => {
           if (result.isConfirmed) {
+
+            this.service.delete(id).subscribe(()=>{
             this.clientes= this.clientes.filter(cliente =>cliente.id_cliente!= id)
             this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-              this.router.navigate(['/clientes'],{state:{clientes: this.clientes}});
+            this.router.navigate(['/clientes']);
+             });
+
             })
+           
             Swal.fire({
                 title: "Eliminado",
                 text: "El cliente se ha eliminado correctamente",

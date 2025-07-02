@@ -12,7 +12,6 @@ import { Credito } from '../../models/credito';
 })
 export class NavbarComponent {
 
-  @Input() clientes: Cliente[]=[];
 
   @Input() usuarios: Usuario[]=[];
 
