@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Cliente } from '../models/cliente';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
 
-  private clientes : Cliente[]=[
-    
-    {
+  private clientes : Cliente[]=[];
+  constructor(private http: HttpClient) { }
+
+  findAll(): Observable<Cliente[]>{
+    //return of(this.clientes);
+    return this.http.get('http://localhost:8080/api/clientes').pipe(
+      map((clientes: any)=>clientes as Cliente[]),
+    );
+  }
+}
+/*
+{
     id_cliente: 1,
     nombre: "isabel",
     apellido_paterno: "Flores",
@@ -36,11 +46,4 @@ export class ClienteService {
     ingresos_mensuales: 14.500
 
      }
-    
-    ];
-  constructor() { }
-
-  findAll(): Observable<Cliente[]>{
-    return of(this.clientes);
-  }
-}
+*/
