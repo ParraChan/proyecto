@@ -33,7 +33,7 @@
                         </td>
                         <td>
                             <button class="btn btn-info btn-sm"
-                            (click)="onSelectedCredit(credito)">
+                            [routerLink]="['/creditos/editar', credito.id_credito]">
                                 Editar
                             </button>
                         </td>

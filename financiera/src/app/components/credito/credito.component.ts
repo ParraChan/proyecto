@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Credito } from '../../models/credito';
 import { SharingDataService } from '../../services/sharing-data.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
 
 @Component({
   selector: 'credito',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './credito.component.html'
 })
 export class CreditoComponent {

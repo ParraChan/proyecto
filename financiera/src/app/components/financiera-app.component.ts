@@ -39,12 +39,42 @@ export class FinancieraAppComponent implements OnInit {
 
     this.addClient();
     this.removeClient();
+    this.findClientById();
 
     this.addUser();
     this.removeUser();
+    this.findUserById();
 
     this.addCredit();
     this.removeCredit();
+    this.findCreditById();
+  }
+
+  findClientById(){
+    this.sharingData.findClientByIdEventEmitter.subscribe(id=>{
+      const cliente = this.clientes.find(cliente => cliente.id_cliente==id);
+
+      this.sharingData.selectClientEventEmitter.emit(cliente);
+    })
+
+  }
+
+  findUserById(){
+    this.sharingData.findUserByIdEventEmitter.subscribe(id=>{
+      const usuario = this.usuarios.find(usuario => usuario.id_usuario==id)
+
+      this.sharingData.selectUserEventEmitter.emit(usuario);
+    })
+
+  }
+
+  findCreditById(){
+    this.sharingData.findCreditByIdEventEmitter.subscribe(id=>{
+      const credito = this.creditos.find(credito => credito.id_credito==id)
+
+      this.sharingData.selectCreditEventEmitter.emit(credito);
+    })
+
   }
 
 

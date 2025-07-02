@@ -1,13 +1,13 @@
 import { Component, EventEmitter } from '@angular/core';
 import { Usuario } from '../../models/usuario';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'usuario',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './usuario.component.html'
 })
 export class UsuarioComponent {

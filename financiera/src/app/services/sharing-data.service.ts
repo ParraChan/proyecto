@@ -13,12 +13,21 @@ export class SharingDataService {
   
     private _idClientEventEmitter = new EventEmitter();
 
+    private _findClientByIdEventEmitter = new EventEmitter();
+
+    private _selectClientEventEmitter = new EventEmitter();
+
+
 
 
 
     private _newUserEventEmitter: EventEmitter<Usuario>= new EventEmitter();
   
     private _idUserEventEmitter = new EventEmitter();
+
+    private _findUserByIdEventEmitter = new EventEmitter();
+    
+    private _selectUserEventEmitter = new EventEmitter();
   
 
 
@@ -26,6 +35,11 @@ export class SharingDataService {
     private _newCreditEventEmitter: EventEmitter<Credito>= new EventEmitter();
 
     private _idCreditEventEmitter= new EventEmitter();
+
+    private _findCreditByIdEventEmitter = new EventEmitter();
+    
+    private _selectCreditEventEmitter = new EventEmitter();
+
 
 
 
@@ -39,6 +53,17 @@ export class SharingDataService {
   get idClientEventEmitter(): EventEmitter<number>{
     return this._idClientEventEmitter;
   }
+
+  get  findClientByIdEventEmitter(){
+    return this._findClientByIdEventEmitter;
+  }
+
+  get selectClientEventEmitter(){
+    return this._selectClientEventEmitter;
+  }
+
+ 
+
  
 
   
@@ -50,8 +75,13 @@ export class SharingDataService {
   get idUserEventEmitter(): EventEmitter<number>{
     return this._idUserEventEmitter;
   }
+   get findUserByIdEventEmitter(){
+    return this._findUserByIdEventEmitter;
+  }
+  get selectUserEventEmitter(){
+    return this._selectUserEventEmitter;
+  }
   
-
 
 
 
@@ -62,6 +92,12 @@ export class SharingDataService {
   }
   get idCreditEventEmitter(): EventEmitter<number>{
     return this._idCreditEventEmitter;
+  }
+  get findCreditByIdEventEmitter(){
+    return this._findCreditByIdEventEmitter;
+  }
+  get selectCreditEventEmitter(){
+    return this._selectCreditEventEmitter;
   }
  
 }

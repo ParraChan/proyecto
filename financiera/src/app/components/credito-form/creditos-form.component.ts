@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Credito } from '../../models/credito';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-creditos-form',
@@ -10,19 +10,27 @@ import { Router } from '@angular/router';
   imports: [FormsModule],
   templateUrl: './creditos-form.component.html'
 })
-export class CreditosFormComponent {
+export class CreditosFormComponent implements OnInit {
 
   @Input() credito: Credito;
 
   constructor(private sharingData: SharingDataService,
-    private router: Router){
-    if(this.router.getCurrentNavigation()?.extras.state){
-        this.credito = this.router.getCurrentNavigation()?.extras.state!['credito'];
-    
-        }else{
+    private route: ActivatedRoute,){
         this.credito = new Credito();
+
+
+  }
+  ngOnInit(): void {
+
+    this.sharingData.selectCreditEventEmitter.subscribe(credito => this.credito = credito);
+
+    this.route.paramMap.subscribe(params=>{
+      const id : number = +(params.get('id') || '0');
+      if(id>0){
+      this.sharingData.findCreditByIdEventEmitter.emit(id);
+    }
+    })
     
-        }
   }
 
   onSubmit(userForm: NgForm):void{

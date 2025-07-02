@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { SharingDataService } from '../../services/sharing-data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cliente-form',
@@ -10,21 +10,28 @@ import { Router } from '@angular/router';
   imports: [FormsModule],
   templateUrl: './cliente-form.component.html'
 })
-export class ClienteFormComponent {
+export class ClienteFormComponent implements OnInit {
 
   @Input() cliente: Cliente;
 
 
   constructor(private sharingData : SharingDataService,
-    private router: Router,
+    private route: ActivatedRoute,
   ){
-    if(this.router.getCurrentNavigation()?.extras.state){
-    this.cliente = this.router.getCurrentNavigation()?.extras.state!['cliente'];
-
-    }else{
     this.cliente = new Cliente();
 
+  }
+  ngOnInit(): void {
+
+    this.sharingData.selectClientEventEmitter.subscribe(cliente => this.cliente = cliente);
+
+    this.route.paramMap.subscribe(params=>{
+      const id : number = +(params.get('id') || '0');
+      if(id>0){
+      this.sharingData.findClientByIdEventEmitter.emit(id);
     }
+    })
+    
   }
 
   onSubmit(userForm: NgForm): void{

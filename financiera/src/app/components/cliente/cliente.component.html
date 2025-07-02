@@ -28,8 +28,8 @@
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm"
-                            (click)="onSelectedClient(cliente)">
+                            <button class="btn btn-info btn-sm" 
+                            [routerLink]="['/clientes/editar', cliente.id_cliente]">
                                 Editar
                             </button>
                         </td>

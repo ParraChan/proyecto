@@ -1,13 +1,13 @@
 import { Component, EventEmitter } from '@angular/core';
 import { Cliente } from '../../models/cliente';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
 import { SharingDataService } from '../../services/sharing-data.service';
 
 @Component({
   selector: 'cliente',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './cliente.component.html'
 })
 export class ClienteComponent {
