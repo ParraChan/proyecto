@@ -1,6 +1,8 @@
 import { Component, EventEmitter } from '@angular/core';
 import { Cliente } from '../../models/cliente';
 import { Router } from '@angular/router';
+import { ClienteService } from '../../services/cliente.service';
+import { SharingDataService } from '../../services/sharing-data.service';
 
 @Component({
   selector: 'cliente',
@@ -11,26 +13,30 @@ import { Router } from '@angular/router';
 export class ClienteComponent {
 
   clientes : Cliente[]= [];
-
-   idClientEventEmitter = new EventEmitter();
-
-  selectedClientEventEmitter = new EventEmitter();
   
   title: string= 'Listado de Clientes';
 
-  constructor(private router: Router){
+  constructor(
+    private sharingData : SharingDataService,
+    private router: Router,
+    private service: ClienteService,
+  ){
+    if(this.router.getCurrentNavigation()?.extras.state){
     this.clientes = this.router.getCurrentNavigation()?.extras.state!['clientes'];
+
+    }else{
+      this.service.findAll().subscribe( clientes => this.clientes= clientes);
+    }
   }
 
 
   onRemoveClient(id: number):void{
-    const confirmRemove =confirm('Estas seguro que deseas eliminar')
-    if(confirmRemove){
-  this.idClientEventEmitter.emit(id)
-    }
+    
+  this.sharingData.idClientEventEmitter.emit(id)
+    
   }
      onSelectedClient(cliente: Cliente){
-      this.selectedClientEventEmitter.emit(cliente)
+      this.sharingData.selectedClientEventEmitter.emit(cliente)
     }
 
 }

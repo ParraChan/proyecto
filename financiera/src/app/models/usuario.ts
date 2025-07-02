@@ -5,8 +5,8 @@ export class Usuario{
     nombre!: string;
     apellido_paterno!:string;
     apellido_materno!:string;
-    fecha_nacimiento!: Date;
-    fecha_ingreso!: Date;
-    rol!: Rol;
+    fecha_nacimiento!: string;
+    fecha_ingreso!: string;
+    rol!: string ;//Rol;
 
 }

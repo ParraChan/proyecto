@@ -19,7 +19,21 @@
           aria-current="page"
           [routerLink]="['/clientes']"
           [state]="{clientes}"
-          >Home</a
+          >Clientes</a
+        >
+        <a
+          class="nav-link active"
+          aria-current="page"
+          [routerLink]="['/usuarios']"
+          [state]="{usuarios}"
+          >Usuarios</a
+        >
+         <a
+          class="nav-link active"
+          aria-current="page"
+          [routerLink]="['/creditos']"
+          [state]="{creditos}"
+          >Creditos</a
         >
        
              <li class="nav-item">
@@ -27,17 +41,18 @@
         >Agregar cliente</a>
         </li>
 
-
-        <li class="nav-item">
-        <a class="nav-link" >Nuevo credito</a>
+         <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/usuarios/crear']"
+        >Agregar usuario</a>
         </li>
 
+
         <li class="nav-item">
-        <a class="nav-link" >Agregar usuario</a>
+        <a class="nav-link" [routerLink]="['/creditos/crear']"
+         >Nuevo credito</a>
         </li>
 
-        
-     
+      
       </div>
     </div>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAuth">

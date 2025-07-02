@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Cliente } from '../../models/cliente';
+import { Usuario } from '../../models/usuario';
+import { Credito } from '../../models/credito';
 
 @Component({
   selector: 'navbar',
@@ -11,5 +13,9 @@ import { Cliente } from '../../models/cliente';
 export class NavbarComponent {
 
   @Input() clientes: Cliente[]=[];
+
+  @Input() usuarios: Usuario[]=[];
+
+  @Input() creditos: Credito[]=[];
 
 }
