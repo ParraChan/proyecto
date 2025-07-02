@@ -23,6 +23,8 @@ export class ClienteComponent implements OnInit {
 
   }
   ngOnInit(): void {
+
+    console.log('consulta findall');
       this.service.findAll().subscribe( clientes => this.clientes= clientes);
 
   }

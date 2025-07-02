@@ -84,17 +84,25 @@ export class FinancieraAppComponent implements OnInit {
         this.service.update(cliente).subscribe(clienteUpdated=>{
       this.clientes= this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente)?{... clienteUpdated}:c)
         });
+
+        Swal.fire({
+                title: "Cliente actualizado",
+                text: "El cliente se ha actualizado correctamente",
+                width: 600,
+                padding: "3em",
+                color: "#716add",
+                background: "#fff", backdrop: `
+                           rgba(0,0,123,0.4)
+                           url("assets/img/cat.gif")
+                           left top
+                           no-repeat
+                         `
+            });
     }else{
       this.service.create(cliente).subscribe(clienteNew=>{
             
         this.clientes =[... this.clientes, {... clienteNew}]
-
-      })
-
-    }
-              this.router.navigate(['/clientes']);
-
-    Swal.fire({
+        Swal.fire({
                 title: "Cliente creado",
                 text: "El usuario se ha creado correctamente",
                 width: 600,
@@ -107,6 +115,13 @@ export class FinancieraAppComponent implements OnInit {
                            no-repeat
                          `
             });
+
+      })
+
+    }
+          this.router.navigate(['/clientes']);
+
+         
 
     })
    
@@ -127,7 +142,7 @@ export class FinancieraAppComponent implements OnInit {
         }).then((result) => {
           if (result.isConfirmed) {
 
-            this.service.delete(id).subscribe(()=>{
+            this.service.remove(id).subscribe(()=>{
             this.clientes= this.clientes.filter(cliente =>cliente.id_cliente!= id)
             this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
             this.router.navigate(['/clientes']);
