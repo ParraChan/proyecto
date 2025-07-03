@@ -9,6 +9,8 @@ import { SharingDataService } from '../services/sharing-data.service';
 import Swal from 'sweetalert2';
 import { Credito } from '../models/credito';
 import { CreditoService } from '../services/credito.service';
+import { RolService } from '../services/rol.service';
+import { Rol } from '../models/rol';
 
 @Component({
   selector: 'financiera-app',
@@ -24,9 +26,12 @@ export class FinancieraAppComponent implements OnInit {
 
   creditos: Credito[] = [];
 
+  roles: Rol[] = [];
+
   constructor(private service: ClienteService,
     private serviceU: UsuarioService,
     private serviceC: CreditoService,
+    private serviceR: RolService,
     private sharingData: SharingDataService,
     private router : Router,
     ){
@@ -34,8 +39,18 @@ export class FinancieraAppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.service.findAll().subscribe(clientes=> this.clientes = clientes);
-    this.serviceU.findAll().subscribe(usuarios=> this.usuarios = usuarios);
+    this.serviceU.findAll().subscribe(usuarios=>{
+      this.serviceU.findAll().subscribe(usuarios => {
+  //console.log('Usuarios cargados:', usuarios);
+  this.usuarios = usuarios;
+});
+
+      this.usuarios = usuarios});
     this.serviceC.findAll().subscribe(creditos=> this.creditos= creditos);
+    this.serviceR.findAll().subscribe(roles => {
+      this.roles = roles
+      //console.log('Roles cargados ',this.roles)
+    })
 
     this.addClient();
     this.removeClient();
@@ -48,6 +63,16 @@ export class FinancieraAppComponent implements OnInit {
     this.addCredit();
     this.removeCredit();
     this.findCreditById();
+
+    this.findRolById();
+  }
+
+  findRolById(){
+    this.sharingData.findRolByIdEventEmitter.subscribe(id=>{
+      const rol = this.roles.find(rol => rol.nombre_rol==id);
+
+      this.sharingData.selectRolEventEmitter.emit(rol);
+    })
   }
 
   findClientById(){
@@ -71,7 +96,6 @@ export class FinancieraAppComponent implements OnInit {
   findCreditById(){
     this.sharingData.findCreditByIdEventEmitter.subscribe(id=>{
       const credito = this.creditos.find(credito => credito.id_credito==id)
-
       this.sharingData.selectCreditEventEmitter.emit(credito);
     })
 
@@ -84,7 +108,9 @@ export class FinancieraAppComponent implements OnInit {
         this.service.update(cliente).subscribe(clienteUpdated=>{
       this.clientes= this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente)?{... clienteUpdated}:c)
         });
-
+          this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/clientes']);
+            })
         Swal.fire({
                 title: "Cliente actualizado",
                 text: "El cliente se ha actualizado correctamente",
@@ -102,6 +128,9 @@ export class FinancieraAppComponent implements OnInit {
       this.service.create(cliente).subscribe(clienteNew=>{
             
         this.clientes =[... this.clientes, {... clienteNew}]
+        this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/clientes']);
+            })
         Swal.fire({
                 title: "Cliente creado",
                 text: "El usuario se ha creado correctamente",
@@ -119,8 +148,7 @@ export class FinancieraAppComponent implements OnInit {
       })
 
     }
-          this.router.navigate(['/clientes']);
-
+         
          
 
     })
@@ -177,12 +205,31 @@ export class FinancieraAppComponent implements OnInit {
 
     this.sharingData.newUserEventEmitter.subscribe(usuario=>{
        if(usuario.id_usuario>0){
-      this.usuarios= this.usuarios.map(u => (u.id_usuario == usuario.id_usuario)?{... usuario}:u)
+        this.serviceU.update(usuario).subscribe(usuarioUpdated=>{
+          this.usuarios= this.usuarios.map(u => (u.id_usuario== usuarioUpdated.id_usuario?{... usuarioUpdated}:u))
+          this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/usuarios']);
+            }) 
+          Swal.fire({
+                title: "Usuario actualizado",
+                text: "El usuario se ha actualizado correctamente",
+                width: 600,
+                padding: "3em",
+                color: "#716add",
+                background: "#fff", backdrop: `
+                           rgba(0,0,123,0.4)
+                           url("assets/img/cat.gif")
+                           left top
+                           no-repeat
+                         `
+            });
+        })
       }else{
-      this.usuarios =[... this.usuarios, {... usuario, id_usuario: new Date().getTime()}]
-      }
-              this.router.navigate(['/usuarios'],{state:{usuarios: this.usuarios}});
-
+      this.serviceU.create(usuario).subscribe(userNew=>{
+        this.usuarios= [... this.usuarios, {... userNew}]
+        this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/usuarios']);
+            }) 
         Swal.fire({
                 title: "Usuario creado",
                 text: "El usuario se ha creado correctamente",
@@ -195,9 +242,12 @@ export class FinancieraAppComponent implements OnInit {
                            left top
                            no-repeat
                          `
-            });
-
-
+            });  
+      })
+   
+    
+    }
+         this.router.navigate(['/usuarios']);
     });
    
   }
@@ -214,10 +264,15 @@ export class FinancieraAppComponent implements OnInit {
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {
           if (result.isConfirmed) {
-          this.usuarios= this.usuarios.filter(Usuario =>Usuario.id_usuario!= id)
-          this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-              this.router.navigate(['/usuarios'],{state:{usuarios: this.usuarios}});
+              console.log(id);
+              this.serviceU.remove(id).subscribe(() =>{
+              this.usuarios= this.usuarios.filter(usuario =>usuario.id_usuario!= id)
+              this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/usuarios']);
             })
+
+              })
+          
             Swal.fire({
                 title: "Eliminado",
                 text: "El usuario se ha eliminado correctamente",
@@ -242,15 +297,18 @@ export class FinancieraAppComponent implements OnInit {
   addCredit(){
     this.sharingData.newCreditEventEmitter.subscribe(credito=>{
        if(credito.id_credito>0){
-      this.creditos= this.creditos.map(cr => (cr.id_credito == credito.id_credito)?{... credito}:cr)
-    }else{
-    this.creditos =[... this.creditos, {... credito, id_credito: new Date().getTime()}]
-    }
-              this.router.navigate(['/creditos'],{state:{creditos: this.creditos}});
-
-     Swal.fire({
-                title: "Credito creado",
-                text: "El usuario se ha creado correctamente",
+        this.serviceC.update(credito).subscribe(creditoUpdated=>{
+          console.log(this.creditos)
+      this.creditos= this.creditos.map(cr => (cr.id_credito == creditoUpdated.id_credito)?{... creditoUpdated}:cr)
+          console.log(this.creditos)
+            
+      this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/creditos']);
+            })
+        })
+       Swal.fire({
+                title: "Credito actualizado",
+                text: "El credito se ha actualizado correctamente",
                 width: 600,
                 padding: "3em",
                 color: "#716add",
@@ -261,6 +319,35 @@ export class FinancieraAppComponent implements OnInit {
                            no-repeat
                          `
             });
+    }else{
+      this.serviceC.create(credito).subscribe(creditoNew=>{
+        console.log(credito.id_credito);
+    this.creditos =[... this.creditos, {... creditoNew}]
+    this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+              this.router.navigate(['/clientes']);
+            })
+
+     Swal.fire({
+                title: "Credito actualizado",
+                text: "El credito se ha actualizado correctamente",
+                width: 600,
+                padding: "3em",
+                color: "#716add",
+                background: "#fff", backdrop: `
+                           rgba(0,0,123,0.4)
+                           url("assets/img/cat.gif")
+                           left top
+                           no-repeat
+                         `
+            });
+
+      })
+
+   
+    }
+         this.router.navigate(['/creditos']);
+
+    
     })
   }
 
@@ -277,10 +364,13 @@ export class FinancieraAppComponent implements OnInit {
           confirmButtonText: "Si, borralo"
         }).then((result) => {
           if (result.isConfirmed) {
-            this.creditos= this.creditos.filter(credito =>credito.id_credito!= id)
+            this.serviceC.remove(id).subscribe(()=>{
+                 this.creditos= this.creditos.filter(credito =>credito.id_credito!= id)
             this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-              this.router.navigate(['/creditos'],{state:{creditos: this.creditos}});
+              this.router.navigate(['/creditos']);
+             })
             })
+           
             Swal.fire({
                 title: "Eliminado",
                 text: "El credito se ha eliminado correctamente",

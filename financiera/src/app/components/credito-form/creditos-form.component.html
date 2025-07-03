@@ -1,13 +1,13 @@
 <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
 
-
+    <h3>Formato para  {{(credito.id_credito)? 'Actualizar': 'Crear'}}</h3>
     <input placeholder="monto"
     name="monto_credito"
     [(ngModel)]="credito.monto_credito"
     class="form-control my-2"
     required>
 
-    <input placeholder="Fecha"
+    <input placeholder="Fecha de entrega"
     name="fecha_entrega"
     [(ngModel)]="credito.fecha_entrega"
     class="form-control my-2"
@@ -31,11 +31,14 @@
     class="form-control my-2"
     required>
 
-    <input placeholder="Cliente"
-    name="cliente"
-    [(ngModel)]="credito.cliente"
-    class="form-control my-2"
-    required>
+    <select [(ngModel)]="credito.cliente" name="cliente" id="cliente" class="form-control my-2" required=>
+        <option [ngValue]="null" disabled selected>Seleccione un rol</option>
+        <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.id_cliente}} 
+            {{cliente.apellido_paterno}} {{cliente.apellido_materno}} {{cliente.nombre}}</option>
+    </select>
+
+
+  
     
 
     <div>

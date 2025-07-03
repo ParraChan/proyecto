@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
 
-
+                
+    <h3> Formato para {{(usuario.id_usuario)? 'Actualizar': 'Crear'}} </h3>
     <input placeholder="nombre"
     name="nombre"
     [(ngModel)]="usuario.nombre"
@@ -25,17 +26,16 @@
     class="form-control my-2"
     required>
 
-    <input placeholder="ingresos"
+    <input placeholder="fecha de ingreso"
     name="ingresos_mensuales"
     [(ngModel)]="usuario.fecha_ingreso"
     class="form-control my-2"
     required>
-
-    <input placeholder="Rol"
-    name="rol"
-    [(ngModel)]="usuario.rol"
-    class="form-control my-2"
-    required>
+    
+    <select [(ngModel)]="usuario.puesto" name="puesto" id="rol" class="form-control my-2" required>
+    <option [ngValue]="null" disabled selected>Seleccione un rol</option>
+    <option *ngFor="let rol of roles" [ngValue]="rol">{{ rol.nombre_rol }}</option>
+    </select>
 
     <div>
         <button type="submit" class="btn btn-primary m-2"

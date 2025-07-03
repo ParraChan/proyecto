@@ -1,48 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 
-  private usuarios : Usuario[] = [
-    {
-      id_usuario: 1,
-      nombre: 'Juan',
-      apellido_paterno: 'Perez',
-      apellido_materno: 'Garcia',
-      fecha_nacimiento: '1997-01-26',
-      fecha_ingreso: '2025-01-17',
-      rol:'nose'
+  private usuarios : Usuario[] = [];
 
-    },
-     {
-      id_usuario: 2,
-      nombre: 'Juan',
-      apellido_paterno: 'Perez',
-      apellido_materno: 'Garcia',
-      fecha_nacimiento: '1997-01-26',
-      fecha_ingreso: '2025-01-17',
-      rol:'nose'
+  constructor(private http: HttpClient) { }
 
-    },
-     {
-      id_usuario: 3,
-      nombre: 'Juan',
-      apellido_paterno: 'Perez',
-      apellido_materno: 'Garcia',
-      fecha_nacimiento: '1997-01-26',
-      fecha_ingreso: '2025-01-17',
-      rol:'nose'
 
-    },
-  ]
-
-  constructor() { }
-
-    findAll(): Observable<Usuario[]>{
-        return of(this.usuarios);
+  private url: string = 'http://localhost:8080/api/usuarios' 
+    
+  
+  findAll(): Observable<Usuario[]>{
+      return this.http.get<Usuario[]>(this.url);
    }
+
+   findById(id:number):Observable<Usuario>{
+    return this.http.get<Usuario>(`${this.url}/${id}`);
+   }
+
+    create(usuario: Usuario): Observable<Usuario>{
+    return this.http.post<Usuario>(this.url,usuario);
+  }
+
+  update(usuario: Usuario): Observable<Usuario>{
+    return this.http.put<Usuario>(`${this.url}/${usuario.id_usuario}`,usuario);
+  }
+
+  remove(id:number):Observable<void>{
+    return this.http.delete<void>(`${this.url}/${id}`)
+
+  }
+
+   
 }

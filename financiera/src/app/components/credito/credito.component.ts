@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Credito } from '../../models/credito';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Router, RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { CreditoService } from '../../services/credito.service';
   imports: [RouterModule],
   templateUrl: './credito.component.html'
 })
-export class CreditoComponent {
+export class CreditoComponent implements OnInit {
     creditos : Credito[]= [];
     
     title: string= 'Listado de Creditos';
@@ -19,14 +19,12 @@ export class CreditoComponent {
       private sharingData : SharingDataService,
       private router: Router,
       private service: CreditoService,
-    ){
-      if(this.router.getCurrentNavigation()?.extras.state){
-      this.creditos = this.router.getCurrentNavigation()?.extras.state!['creditos'];
-  
-      }else{
+    ){}
+      
+  ngOnInit(): void {
         this.service.findAll().subscribe( creditos => this.creditos= creditos);
-      }
-    }
+    
+  }
   
     onRemoveCredit(id: number):void{
       
@@ -34,7 +32,7 @@ export class CreditoComponent {
       
     }
        onSelectedCredit(credito: Credito){
-        this.router.navigate(['/creditos/editar',credito.id_credito],{state: {credito}});
+        this.router.navigate(['/creditos/editar',credito.id_credito]);
       }
 
 }

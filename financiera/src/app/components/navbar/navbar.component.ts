@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Cliente } from '../../models/cliente';
-import { Usuario } from '../../models/usuario';
-import { Credito } from '../../models/credito';
 
 @Component({
   selector: 'navbar',
@@ -11,10 +8,5 @@ import { Credito } from '../../models/credito';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
-
-
-  @Input() usuarios: Usuario[]=[];
-
-  @Input() creditos: Credito[]=[];
 
 }

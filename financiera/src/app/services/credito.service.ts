@@ -1,51 +1,40 @@
 import { Injectable } from '@angular/core';
 import { Credito } from '../models/credito';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreditoService {
 
-  private creditos : Credito[]=[
-    {
-        id_credito: 1,
-        monto_credito: 10.000,
-        fecha_entrega: '2025-07-01',
-        numero_pagos: '10',
-        frecuencia_pagos: 'semanal',
-        estatus_pago: 'Pagado',
-        cliente: 'Mari',
-        usuario:'Karely'
+  private creditos : Credito[]=[];
 
-    },
-    {
-        id_credito: 2,
-        monto_credito: 10.000,
-        fecha_entrega: '2025-07-01',
-        numero_pagos: '10',
-        frecuencia_pagos: 'semanal',
-        estatus_pago: 'Pagado',
-        cliente: 'Mari',
-        usuario:'Karely'
+  private url: string = 'http://localhost:8080/api/creditos' 
 
-    },
-    {
-        id_credito: 3,
-        monto_credito: 10.000,
-        fecha_entrega: '2025-07-01',
-        numero_pagos: '10',
-        frecuencia_pagos: 'semanal',
-        estatus_pago: 'Pagado',
-        cliente: 'Mari',
-        usuario:'Karely'
 
-    }
-  ]
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   findAll(): Observable<Credito[]>{
-    return of(this.creditos);
+    return this.http.get<Credito[]>(this.url);
+
+  }
+
+  findById(id: number): Observable<Credito>{
+    return this.http.get<Credito>(`${this.url}/${id}`);
+
+  }
+
+  create(credito: Credito): Observable<Credito>{
+    return this.http.post<Credito>(this.url,credito);
+  }
+
+  update(credito: Credito): Observable<Credito>{
+    return this.http.put<Credito>(`${this.url}/${credito.id_credito}`,credito);
+  }
+
+  remove(id:number):Observable<void>{
+    return this.http.delete<void>(`${this.url}/${id}`)
+
   }
 }

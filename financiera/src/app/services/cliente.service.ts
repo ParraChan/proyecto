@@ -14,7 +14,7 @@ export class ClienteService {
   constructor(private http: HttpClient) { }
 
   findAll(): Observable<Cliente[]>{
-    return this.http.get<Cliente[]>(this.url)
+    return this.http.get<Cliente[]>(this.url);
     
   }
 
@@ -38,32 +38,3 @@ export class ClienteService {
 
 
 }
-/*
-{
-    id_cliente: 1,
-    nombre: "isabel",
-    apellido_paterno: "Flores",
-    apellido_materno: "Martinez",
-    fecha_nacimiento: "2025-07-04",
-    ingresos_mensuales: 14.500
-
-     },
-     {
-    id_cliente: 2,
-    nombre: "isabel",
-    apellido_paterno: "Flores",
-    apellido_materno: "Martinez",
-    fecha_nacimiento: "2025-07-04",
-    ingresos_mensuales: 14.500
-
-     },
-     {
-    id_cliente: 3,
-    nombre: "isabel",
-    apellido_paterno: "Flores",
-    apellido_materno: "Martinez",
-    fecha_nacimiento: "2025-07-04",
-    ingresos_mensuales: 14.500
-
-     }
-*/

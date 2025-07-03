@@ -25,6 +25,7 @@ public class CreditoServiceImplements implements CreditoService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public Optional<Credito> findById(@NonNull Long id_credito) {
         return creditoRepository.findById(id_credito);
     }

@@ -42,7 +42,9 @@ export class SharingDataService {
 
 
 
+    private _findRolByIdEventEmitter = new EventEmitter();
 
+    private _selectRolEventEmitter = new EventEmitter();
   
 
   constructor() { }
@@ -98,6 +100,17 @@ export class SharingDataService {
   }
   get selectCreditEventEmitter(){
     return this._selectCreditEventEmitter;
+  }
+
+
+
+
+  get findRolByIdEventEmitter(){
+    return this._findRolByIdEventEmitter;
+  }
+
+  get selectRolEventEmitter(){
+    return this._selectRolEventEmitter;
   }
  
 }
