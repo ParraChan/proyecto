@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-creditos-form',
@@ -21,8 +22,11 @@ export class CreditosFormComponent implements OnInit {
 
   @Input() clientes: Cliente[]=[];
 
+  @Input() usuarios: Usuario[]=[];
+
   constructor(
     private serviceC: ClienteService,
+    private serviceU: UsuarioService,
     private sharingData: SharingDataService,
     private route: ActivatedRoute,
     private service: CreditoService,){
@@ -32,6 +36,9 @@ export class CreditosFormComponent implements OnInit {
     
     this.serviceC.findAll().subscribe((clientes)=>{
       this.clientes = clientes;
+    })
+    this.serviceU.findAll().subscribe((usuarios)=>{
+      this.usuarios = usuarios.filter(usuario=>usuario.puesto?.id_rol===2);
     })
 
     this.route.paramMap.subscribe(params=>{
@@ -46,7 +53,7 @@ export class CreditosFormComponent implements OnInit {
   onSubmit(userForm: NgForm):void{
     if(userForm.valid){
       this.sharingData.newCreditEventEmitter.emit(this.credito);
-      console.log(this.credito);
+      //console.log(this.credito);
     }
     userForm.resetForm();
     userForm.reset();

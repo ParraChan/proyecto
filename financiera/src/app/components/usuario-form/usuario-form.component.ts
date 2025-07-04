@@ -52,7 +52,7 @@ export class UsuarioFormComponent  implements OnInit{
     onSubmit(userForm: NgForm): void{
       if(userForm.valid){
           this.sharingData.newUserEventEmitter.emit(this.usuario);
-      console.log(this.usuario);
+      //console.log(this.usuario);
   
       }
     

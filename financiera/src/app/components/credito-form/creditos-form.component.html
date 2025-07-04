@@ -32,14 +32,21 @@
     required>
 
     <select [(ngModel)]="credito.cliente" name="cliente" id="cliente" class="form-control my-2" required=>
-        <option [ngValue]="null" disabled selected>Seleccione un rol</option>
-        <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.id_cliente}} 
-            {{cliente.apellido_paterno}} {{cliente.apellido_materno}} {{cliente.nombre}}</option>
+        <option placeholder="Cliente" [ngValue]="null" disabled selected>Seleccione un cliente</option>
+        <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.id_cliente}} ({{cliente.nombre}} {{cliente.apellido_paterno}} {{cliente.apellido_materno}})</option>
     </select>
 
+ <select [(ngModel)]="credito.usuario" name="usuario" id="usuario" class="form-control my-2">
+  <option [ngValue]="null" disabled selected>Seleccione un usuario</option>
+  <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
+    {{ usuario.nombre }} ({{ usuario.puesto.nombre_rol }})
+  </option>
+</select>
 
-  
+
     
+
+
 
     <div>
         <button type="submit" class="btn btn-primary m-2"

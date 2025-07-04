@@ -41,9 +41,8 @@ public class Credito {
 
 
     @JsonIgnoreProperties("creditos")
-    @NotNull(message = "El id del ciente es necesario ")
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario", nullable = true)
     private Usuario usuario;
 
 

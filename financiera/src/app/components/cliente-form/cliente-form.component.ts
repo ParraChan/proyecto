@@ -41,7 +41,7 @@ export class ClienteFormComponent implements OnInit {
   onSubmit(userForm: NgForm): void{
     if(userForm.valid){
         this.sharingData.newClientEventEmitter.emit(this.cliente);
-    console.log(this.cliente);
+   // console.log(this.cliente);
 
     }
   

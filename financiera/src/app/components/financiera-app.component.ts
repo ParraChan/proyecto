@@ -264,7 +264,7 @@ export class FinancieraAppComponent implements OnInit {
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {
           if (result.isConfirmed) {
-              console.log(id);
+              //console.log(id);
               this.serviceU.remove(id).subscribe(() =>{
               this.usuarios= this.usuarios.filter(usuario =>usuario.id_usuario!= id)
               this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
@@ -298,9 +298,8 @@ export class FinancieraAppComponent implements OnInit {
     this.sharingData.newCreditEventEmitter.subscribe(credito=>{
        if(credito.id_credito>0){
         this.serviceC.update(credito).subscribe(creditoUpdated=>{
-          console.log(this.creditos)
+        //  console.log(this.creditos)
       this.creditos= this.creditos.map(cr => (cr.id_credito == creditoUpdated.id_credito)?{... creditoUpdated}:cr)
-          console.log(this.creditos)
             
       this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
               this.router.navigate(['/creditos']);
@@ -321,8 +320,8 @@ export class FinancieraAppComponent implements OnInit {
             });
     }else{
       this.serviceC.create(credito).subscribe(creditoNew=>{
-        console.log(credito.id_credito);
     this.creditos =[... this.creditos, {... creditoNew}]
+
     this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
               this.router.navigate(['/clientes']);
             })

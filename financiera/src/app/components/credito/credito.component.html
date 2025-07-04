@@ -12,6 +12,7 @@
                         <th>Frecuencia de pagos</th>
                         <th>Estatus</th>
                         <th>Cliente</th>
+                        <th>Asesor</th>
                         <th>Eliminar</th>
                         <th>Editar</th>
                     </tr>
@@ -27,6 +28,7 @@
                         <td> {{credito.frecuencia_pagos}}</td>
                         <td> {{credito.estatus_pago}}</td>
                         <td>{{credito.cliente.nombre}}</td>
+                        <td>{{credito.usuario?.nombre || 'Sin asesor'}}</td>
                         <td>
                             <button class="btn btn-danger btn-sm"
                             (click)="onRemoveCredit(credito.id_credito)">
