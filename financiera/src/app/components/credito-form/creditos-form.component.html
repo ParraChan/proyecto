@@ -33,39 +33,60 @@
         </div>
 
         <div>
-          <input
-            placeholder="Numero de pagos"
-            name="numero_pagos"
+          <select
             [(ngModel)]="credito.numero_pagos"
+            #numero_pagos="ngModel"
+            name="numero_pagos"
+            id="numero_pagos"
             class="form-control my-2"
-          />
-          @if(errors?.numero_pagos){
-          <div class="text-danger">{{ errors.numero_pagos }}</div>
-          }
+          >
+            <option [ngValue]="null" disabled>
+              Seleccione número de pagos
+            </option>
+            <option *ngFor="let numero of numeroPagoOptions" [ngValue]="numero">
+              {{ numero }}
+            </option>
+          </select>
         </div>
 
         <div>
-          <input
-            placeholder="Frecuencia de pagos"
-            name="frecuencia_pagos"
+          <select
             [(ngModel)]="credito.frecuencia_pagos"
+            #frecuencia_pagos="ngModel"
+            name="frecuencia_pagos"
+            id="frecuencia_pagos"
             class="form-control my-2"
-          />
-          @if(errors?.frecuencia_pagos){
-          <div class="text-danger">{{ errors.frecuencia_pagos }}</div>
-          }
+          >
+            <option [ngValue]="null" disabled>
+              Seleccione la frecuencia de pago
+            </option>
+            <option
+              *ngFor="let frecuencia of frecuenciaPagoOptions"
+              [ngValue]="frecuencia"
+            >
+              {{ frecuencia | titlecase }}
+            </option>
+          </select>
         </div>
 
         <div>
-          <input
-            placeholder="Estado de pago"
-            name="estatus_pago"
+          <select
             [(ngModel)]="credito.estatus_pago"
+            #estatus_pago="ngModel"
+            name="estatus_pago"
+            id="estatus_pago"
             class="form-control my-2"
-          />
-          @if(errors?.estatus_pago){
-          <div class="text-danger">{{ errors.estatus_pago }}</div>
-          }
+          >
+            <option placeholder="Estatus" [ngValue]="null" disabled>
+              Seleccione un estatus
+            </option>
+            <option
+              *ngFor="let estatus of estatusPagoOptions"
+              [ngValue]="estatus"
+            >
+              {{ estatus }}
+            </option>
+          </select>
         </div>
 
         <div>

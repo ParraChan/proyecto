@@ -83,7 +83,31 @@
             </option>
           </select>
         </div>
+        @if(usuario.id_usuario==0){
+        <div>
+          <input
+            placeholder="Nombre de usuario"
+            name="nombreusuario"
+            [(ngModel)]="usuario.nombreusuario"
+            class="form-control my-2"
+          />
+         <div *ngIf="errors.nombreusuario" class="text-danger">
+          {{ errors.nombreusuario }}
+         </div>
+        </div>
 
+        <div>
+          <input
+            placeholder="Contraseña"
+            name="contrasena"
+            [(ngModel)]="usuario.contrasena"
+            class="form-control my-2"
+          />
+          @if(errors?.contrasena){
+          <div class="text-danger">{{ errors.contrasena}}</div>
+          }
+        </div>
+            }
         <div>
           <button
             type="submit"

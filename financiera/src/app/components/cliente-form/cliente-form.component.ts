@@ -49,8 +49,6 @@ export class ClienteFormComponent implements OnInit {
 
     }
   
-    userForm.resetForm();
-    userForm.reset();
   }
   onClear(userForm: NgForm):void{
     this.cliente= new Cliente();

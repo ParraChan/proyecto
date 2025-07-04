@@ -118,20 +118,9 @@ export class FinancieraAppComponent implements OnInit {
           }
         }
         );
+     
 
-        Swal.fire({
-          title: "Cliente actualizado",
-          text: "El cliente se ha actualizado correctamente",
-          width: 600,
-          padding: "3em",
-          color: "#716add",
-          background: "#fff", backdrop: `
-                           rgba(0,0,123,0.4)
-                           url("assets/img/cat.gif")
-                           left top
-                           no-repeat
-                         `
-        });
+        
       } else {
         this.service.create(cliente).subscribe({
           next: (clienteNew) => {
@@ -140,19 +129,7 @@ export class FinancieraAppComponent implements OnInit {
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/clientes']);
             })
-            Swal.fire({
-              title: "Cliente creado",
-              text: "El usuario se ha creado correctamente",
-              width: 600,
-              padding: "3em",
-              color: "#716add",
-              background: "#fff", backdrop: `
-                           rgba(0,0,123,0.4)
-                           url("assets/img/cat.gif")
-                           left top
-                           no-repeat
-                         `
-            });
+           
 
           },
           error: (err) => {
@@ -165,10 +142,12 @@ export class FinancieraAppComponent implements OnInit {
         )//subscribe
 
       }
+      
+    
 
 
-
-    })
+    }
+  )
 
   }
 

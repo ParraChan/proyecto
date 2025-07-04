@@ -8,5 +8,7 @@ export class Usuario{
     fecha_nacimiento!: Date;
     fecha_ingreso!: Date;
     puesto!: Rol;
+    nombreusuario !:string;
+    contrasena!: string;
 
 }

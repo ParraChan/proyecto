@@ -28,12 +28,19 @@ public class UsuarioServiceImplements implements UsuarioService {
 
     @Override
     public Usuario save(Usuario usuario) {
+        validarDuplicados(usuario);
         return usuarioRepository.save(usuario);
     }
 
     @Override
     public void deleteById(Long id_usuario) {
         usuarioRepository.deleteById(id_usuario);
+    }
+
+    private void validarDuplicados(Usuario usuario){
+        if(usuarioRepository.existsByNombreusuario(usuario.getNombreusuario())){
+            throw new IllegalArgumentException("El usuario ya existe");
+        }
     }
 
     

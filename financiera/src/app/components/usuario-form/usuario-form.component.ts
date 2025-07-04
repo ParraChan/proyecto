@@ -39,6 +39,7 @@ export class UsuarioFormComponent  implements OnInit{
     ngOnInit(): void {
 
     this.sharingData.errorsUserFormEventEmitter.subscribe(errors=> this.errors= errors);
+    console.log(this.errors);
 
 
       this.serviceR.findAll().subscribe((roles)=>{
@@ -61,9 +62,7 @@ export class UsuarioFormComponent  implements OnInit{
       //console.log(this.usuario);
   
       }
-    
-      userForm.resetForm();
-      userForm.reset();
+
     }
     onClear(userForm: NgForm):void{
       this.usuario= new Usuario();

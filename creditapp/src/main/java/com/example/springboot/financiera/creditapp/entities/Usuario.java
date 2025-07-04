@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,12 +17,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.UniqueConstraint;
 
 
     @Entity
-    @Table(name = "usuarios")
+    @Table(name = "usuarios", uniqueConstraints =  {
+        @UniqueConstraint(columnNames = "nombre_usuario")
+    })
     public class Usuario {
 
     @Id
@@ -50,7 +55,24 @@ import jakarta.validation.constraints.NotNull;
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Rol puesto;
- 
+    
+    @NotBlank(message = "El nombre de usuario es obligatorio")
+    @Column(name = "nombre_usuario", nullable = false)
+    private String nombreusuario;
+    
+    @NotBlank(message="La contraseña es obligatoria")
+    private String contrasena;
+    
+    
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
     @OneToMany(mappedBy = "usuario")
     private List<Credito> creditos;
 
@@ -119,6 +141,16 @@ import jakarta.validation.constraints.NotNull;
     public void setCreditos(List<Credito> creditos) {
         this.creditos = creditos;
     }
+
+    public String getNombreusuario() {
+        return nombreusuario;
+    }
+
+    public void setNombreusuario(String nombreusuario) {
+        this.nombreusuario = nombreusuario;
+    }
+
+   
         
 
     

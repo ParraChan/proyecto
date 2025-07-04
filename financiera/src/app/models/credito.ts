@@ -5,9 +5,9 @@ export class Credito{
     id_credito :number=0;
     monto_credito!: number;
     fecha_entrega!: Date;
-    numero_pagos!: '10' | '12' | '16' | '24';
-    frecuencia_pagos!: 'semanal' | 'quincenal' | 'mensual';
-    estatus_pago!: 'Pagado' | 'Pendiente';
+    numero_pagos!: '10' | '12' | '16' | '24' ;
+    frecuencia_pagos!: 'semanal' | 'quincenal' | 'mensual' ;
+    estatus_pago!: 'Pagado' | 'Pendiente' ;
     cliente!: Cliente;
     usuario!: Usuario;
 }

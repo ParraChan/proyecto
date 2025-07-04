@@ -25,6 +25,11 @@ export class CreditosFormComponent implements OnInit {
   @Input() usuarios: Usuario[]=[];
 
   errors: any={};
+
+  estatusPagoOptions: string[] = ['Pagado', 'Pendiente'];
+  frecuenciaPagoOptions: string[] = ['semanal', 'quincenal', 'mensual'];
+  numeroPagoOptions: string[] = ['10', '12', '16', '24'];
+
   
 
   constructor(
@@ -44,7 +49,7 @@ export class CreditosFormComponent implements OnInit {
       this.clientes = clientes;
     })
     this.serviceU.findAll().subscribe((usuarios)=>{
-      this.usuarios = usuarios.filter(usuario=>usuario.puesto?.id_rol===2);
+      this.usuarios = usuarios.filter(usuario=>usuario.puesto?.id_rol===3);
     })
 
     this.route.paramMap.subscribe(params=>{
@@ -61,8 +66,6 @@ export class CreditosFormComponent implements OnInit {
       this.sharingData.newCreditEventEmitter.emit(this.credito);
       //console.log(this.credito);
     }
-    userForm.resetForm();
-    userForm.reset();
   }
 
   onClear(userForm: NgForm):void{
