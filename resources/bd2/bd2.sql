@@ -30,7 +30,7 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date NOT NULL,
   `ingresos_mensuales` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Martha','Aguirre','Lopez','1995-07-01',8634.40),(2,'Karim','Lopez','Hernandez','1968-12-12',20000.00),(3,'Maria','Fernandez','Mora','2000-07-23',15439.25),(12,'Maria Editado','hora','Hora','1995-07-01',3432.00),(16,'Israel','Marcial','Parra','1995-12-09',8500.00);
+INSERT INTO `clientes` VALUES (1,'Martha','Aguirre','Lopez','1995-07-01',8634.40),(2,'Karim','Lopez','Hernandez','1968-12-12',20000.00),(3,'Maria','Fernandez','Morata','2000-07-23',15439.25),(12,'Maria Editado','hora','Hora','1995-07-01',3432.00),(16,'Israel','Marcial','Parra','1995-12-09',8500.00),(17,'FUNCIONA?','Aguirre','Parra','1995-12-09',0.00),(18,'Dayanara','Rivas','Confesor','2005-01-09',35000.00);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `creditos` (
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `creditos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
   CONSTRAINT `creditos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `creditos` (
 
 LOCK TABLES `creditos` WRITE;
 /*!40000 ALTER TABLE `creditos` DISABLE KEYS */;
-INSERT INTO `creditos` VALUES (1,23900.00,'2025-03-18','10','semanal','Pagado',1,2),(3,999999.00,'2017-07-01','24','mensual','Pagado',2,2),(4,147000.00,'2025-06-17','16','quincenal','Pagado',1,2),(5,5000.00,'2025-07-01','12','mensual','Pendiente',3,2),(6,5000.00,'2025-07-01','12','mensual','Pendiente',3,2),(7,5000.00,'2025-07-01','12','mensual','Pendiente',3,1),(8,5000.00,'2025-07-01','12','mensual','Pendiente',3,1);
+INSERT INTO `creditos` VALUES (10,10000.00,'2026-12-01','16','semanal','Pendiente',16,NULL),(12,10000.00,'2025-01-01','12','semanal','Pendiente',1,NULL);
 /*!40000 ALTER TABLE `creditos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,10 +116,12 @@ CREATE TABLE `usuarios` (
   `fecha_nacimiento` date NOT NULL,
   `fecha_ingreso` date NOT NULL,
   `id_rol` int NOT NULL,
+  `nombre_usuario` varchar(45) NOT NULL,
+  `contrasena` varchar(45) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   KEY `usuarios_ibfk_1` (`id_rol`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +130,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Israel','ACT','Parra','1995-12-09','2025-06-09',1),(2,'Carla','Fernandez','Lopez','1997-01-07','2024-01-04',1),(3,'Madeline','Ramos','Gutierrez','1990-11-15','2020-06-06',2),(26,'Astrid DENUEVO','Martiñon','Perez','1995-07-01','2025-06-09',2),(27,'Prueba','Aguirre','Martinez','1995-07-01','2025-06-09',2);
+INSERT INTO `usuarios` VALUES (1,'Israel','Marcial','Parra','1995-12-09','2025-06-09',1,'parrachan','123456'),(2,'Carla','Fernandez','Lopez','1997-01-07','2024-01-04',1,'',''),(3,'Madeline','Ramos','Gutierrez','1990-11-15','2020-06-06',2,'',''),(26,'Astrid DENUEVO','Martiñon','Perez','1995-07-01','2025-06-09',2,'',''),(27,'Prueba','Aguirre','Martinez','1995-07-01','2025-06-09',2,'',''),(28,'Maria','Montes','Garcia','1995-07-01','2025-06-09',3,'T1_Maria','12345');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-03 17:03:02
+-- Dump completed on 2025-07-04 16:27:13

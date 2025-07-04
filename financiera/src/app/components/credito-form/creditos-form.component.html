@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card w-50">
   <div class="card-content">
     <div class="card-header">
       <h5 class="card-title">
@@ -21,8 +21,9 @@
         </div>
 
         <div>
+          <label class="form-label">fecha entrega</label>
           <input
-            placeholder="Fecha de entrega"
+            type="date"
             name="fecha_entrega"
             [(ngModel)]="credito.fecha_entrega"
             class="form-control my-2"
@@ -47,6 +48,7 @@
               {{ numero }}
             </option>
           </select>
+          <div class="text-danger" *ngIf="errors?.numero_pagos"> {{errors.numero_pagos}}</div>
         </div>
 
         <div>
@@ -67,6 +69,8 @@
               {{ frecuencia | titlecase }}
             </option>
           </select>
+          <div class="text-danger" *ngIf="errors?.frecuencia_pagos"> {{errors.frecuencia_pagos}}</div>
+
         </div>
 
         <div>
@@ -87,6 +91,8 @@
               {{ estatus }}
             </option>
           </select>
+          <div class="text-danger" *ngIf="errors?.estatus_pago"> {{errors.estatus_pago}}</div>
+
         </div>
 
         <div>
@@ -99,11 +105,14 @@
             <option placeholder="Cliente" [ngValue]="null" disabled selected>
               Seleccione un cliente
             </option>
-            <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+            <option 
+            *ngFor="let cliente of clientes" [ngValue]="cliente">
               {{ cliente.id_cliente }} ({{ cliente.nombre }}
               {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
             </option>
           </select>
+          <div class="text-danger" *ngIf="errors?.cliente"> {{errors.cliente}}</div>
+
         </div>
 
         <div>

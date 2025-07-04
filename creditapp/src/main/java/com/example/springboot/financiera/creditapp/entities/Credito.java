@@ -24,7 +24,7 @@ public class Credito {
     private BigDecimal monto_credito;
 
     @Column(name = "fecha_entrega", nullable = false)
-    @NotNull(message = "El monto no puede estar vacio")
+    @NotNull(message = "La fecha no puede estar vacia")
     private LocalDate fecha_entrega;
 
     // Usamos String para enums para mantener simple y evitar clases extra
@@ -44,7 +44,7 @@ public class Credito {
     private String estatus_pago;
     
     @JsonIgnoreProperties("creditos")
-    @NotNull(message = "El id del ciente es necesario ")
+    @NotNull(message = "Es necesario seleccionar un cliente")
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;

@@ -38,9 +38,11 @@ public class UsuarioServiceImplements implements UsuarioService {
     }
 
     private void validarDuplicados(Usuario usuario){
-        if(usuarioRepository.existsByNombreusuario(usuario.getNombreusuario())){
-            throw new IllegalArgumentException("El usuario ya existe");
-        }
+        Optional<Usuario> existente = usuarioRepository.findByNombreusuario(usuario.getNombreusuario());
+
+    if (existente.isPresent() && !existente.get().getId_usuario().equals(usuario.getId_usuario())) {    
+    throw new IllegalArgumentException("El usuario ya existe");
+}
     }
 
     
