@@ -116,7 +116,7 @@ public class ClienteController {
     private ResponseEntity<?> validation(BindingResult result) {
     Map<String, String> errors = new HashMap<>();
     result.getFieldErrors().forEach(error -> {
-        errors.put(error.getField(), "El campo " + error.getField() + " " + error.getDefaultMessage());
+        errors.put(error.getField(), error.getDefaultMessage());
     });
     return ResponseEntity.badRequest().body(errors);
     }

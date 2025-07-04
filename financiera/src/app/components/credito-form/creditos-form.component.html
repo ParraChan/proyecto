@@ -1,64 +1,119 @@
-<form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
-
-    <h3>Formato para  {{(credito.id_credito)? 'Actualizar': 'Crear'}}</h3>
-    <input placeholder="monto"
-    name="monto_credito"
-    [(ngModel)]="credito.monto_credito"
-    class="form-control my-2"
-    required>
-
-    <input placeholder="Fecha de entrega"
-    name="fecha_entrega"
-    [(ngModel)]="credito.fecha_entrega"
-    class="form-control my-2"
-    required>
-
-    <input placeholder="Numero de pagos"
-    name="numero_pagos"
-    [(ngModel)]="credito.numero_pagos"
-    class="form-control my-2"
-    required>
-
-    <input placeholder="Frecuencia de pagos"
-    name="frecuencia_pagos"
-    [(ngModel)]="credito.frecuencia_pagos"
-    class="form-control my-2"
-    required>
-
-    <input placeholder="Estado de pago"
-    name="estatus_pago"
-    [(ngModel)]="credito.estatus_pago"
-    class="form-control my-2"
-    required>
-
-    <select [(ngModel)]="credito.cliente" name="cliente" id="cliente" class="form-control my-2" required=>
-        <option placeholder="Cliente" [ngValue]="null" disabled selected>Seleccione un cliente</option>
-        <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.id_cliente}} ({{cliente.nombre}} {{cliente.apellido_paterno}} {{cliente.apellido_materno}})</option>
-    </select>
-
- <select [(ngModel)]="credito.usuario" name="usuario" id="usuario" class="form-control my-2">
-  <option [ngValue]="null" disabled selected>Seleccione un usuario</option>
-  <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
-    {{ usuario.nombre }} ({{ usuario.puesto.nombre_rol }})
-  </option>
-</select>
-
-
-    
-
-
-
-    <div>
-        <button type="submit" class="btn btn-primary m-2"
-        [disabled]="userForm.invalid">
-                {{(credito.id_credito)? 'Actualizar': 'Crear'}}
-        </button>
-        <button class="btn btn-secondary my-2"
-        (click)="onClear(userForm)" 
-        >
-            Limpiar
-        </button>
-
+<div class="card">
+  <div class="card-content">
+    <div class="card-header">
+      <h5 class="card-title">
+        Formato para
+        {{ credito.id_credito > 0 ? "actualizar" : "nuevo" }} credito
+      </h5>
     </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
+        <div>
+          <input
+            placeholder="monto"
+            name="monto_credito"
+            [(ngModel)]="credito.monto_credito"
+            class="form-control my-2"
+          />
+          @if(errors?.monto_credito){
+          <div class="text-danger">{{ errors.monto_credito }}</div>
+          }
+        </div>
 
-</form>
+        <div>
+          <input
+            placeholder="Fecha de entrega"
+            name="fecha_entrega"
+            [(ngModel)]="credito.fecha_entrega"
+            class="form-control my-2"
+          />
+          @if(errors?.fecha_entrega){
+          <div class="text-danger">{{ errors.fecha_entrega }}</div>
+          }
+        </div>
+
+        <div>
+          <input
+            placeholder="Numero de pagos"
+            name="numero_pagos"
+            [(ngModel)]="credito.numero_pagos"
+            class="form-control my-2"
+          />
+          @if(errors?.numero_pagos){
+          <div class="text-danger">{{ errors.numero_pagos }}</div>
+          }
+        </div>
+
+        <div>
+          <input
+            placeholder="Frecuencia de pagos"
+            name="frecuencia_pagos"
+            [(ngModel)]="credito.frecuencia_pagos"
+            class="form-control my-2"
+          />
+          @if(errors?.frecuencia_pagos){
+          <div class="text-danger">{{ errors.frecuencia_pagos }}</div>
+          }
+        </div>
+
+        <div>
+          <input
+            placeholder="Estado de pago"
+            name="estatus_pago"
+            [(ngModel)]="credito.estatus_pago"
+            class="form-control my-2"
+          />
+          @if(errors?.estatus_pago){
+          <div class="text-danger">{{ errors.estatus_pago }}</div>
+          }
+        </div>
+
+        <div>
+          <select
+            [(ngModel)]="credito.cliente"
+            name="cliente"
+            id="cliente"
+            class="form-control my-2"
+          >
+            <option placeholder="Cliente" [ngValue]="null" disabled selected>
+              Seleccione un cliente
+            </option>
+            <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+              {{ cliente.id_cliente }} ({{ cliente.nombre }}
+              {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <select
+            [(ngModel)]="credito.usuario"
+            name="usuario"
+            id="usuario"
+            class="form-control my-2"
+          >
+            <option [ngValue]="null" disabled selected>
+              Seleccione un usuario
+            </option>
+            <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
+              {{ usuario.nombre }} ({{ usuario.puesto.nombre_rol }})
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="btn btn-primary m-2"
+            [disabled]="userForm.invalid"
+          >
+            {{ credito.id_credito ? "Actualizar" : "Crear" }}
+          </button>
+          <button class="btn btn-secondary my-2" (click)="onClear(userForm)">
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

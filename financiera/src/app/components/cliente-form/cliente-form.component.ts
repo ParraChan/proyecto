@@ -15,6 +15,8 @@ export class ClienteFormComponent implements OnInit {
 
   @Input() cliente: Cliente;
 
+  errors: any={};
+
 
   constructor(
     private sharingData: SharingDataService,
@@ -25,6 +27,8 @@ export class ClienteFormComponent implements OnInit {
 
   }
   ngOnInit(): void {
+
+    this.sharingData.errorsClientFormEventEmitter.subscribe(errors=> this.errors= errors);
 
     //this.sharingData.selectClientEventEmitter.subscribe(cliente => this.cliente = cliente);
 

@@ -19,6 +19,9 @@ export class UsuarioFormComponent  implements OnInit{
     @Input() usuario: Usuario;
 
     @Input() roles: Rol[]=[];
+
+    errors: any={};
+
   
   
     constructor(
@@ -34,6 +37,9 @@ export class UsuarioFormComponent  implements OnInit{
 
 
     ngOnInit(): void {
+
+    this.sharingData.errorsUserFormEventEmitter.subscribe(errors=> this.errors= errors);
+
 
       this.serviceR.findAll().subscribe((roles)=>{
         this.roles = roles;

@@ -1,11 +1,13 @@
 package com.example.springboot.financiera.creditapp.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -18,19 +20,27 @@ public class Credito {
     private Long id_credito;
 
     @Column(name = "monto_credito", nullable = false)
+    @NotNull(message = "El monto no puede estar vacio")
     private BigDecimal monto_credito;
 
     @Column(name = "fecha_entrega", nullable = false)
+    @NotNull(message = "El monto no puede estar vacio")
     private LocalDate fecha_entrega;
 
     // Usamos String para enums para mantener simple y evitar clases extra
     @Column(name = "numero_pagos", nullable = false, columnDefinition = "ENUM('10', '12', '16', '24')")
+    @NotEmpty(message = "Numero de pagos no puede estar vacio")
+    @JsonFormat(pattern = "Solo pueden ser '10', '12', '16', '24'")
     private String numero_pagos;
 
     @Column(name = "frecuencia_pagos", nullable = false, columnDefinition = "ENUM('semanal', 'quincenal', 'mensual')")
+    @NotEmpty(message = "Frecuencia de pagos no puede estar vacio")
+    @JsonFormat(pattern = "Solo pueden ser 'semanal', 'quincenal', 'mensual'")
     private String frecuencia_pagos;
 
     @Column(name = "estatus_pago", nullable = false, columnDefinition = "ENUM('Pagado', 'Pendiente')")
+    @NotEmpty(message = "Estatus de pago no puede estar vacio")
+    @JsonFormat(pattern = "Solo pueden ser 'Pagado', 'Pendiente'")
     private String estatus_pago;
     
     @JsonIgnoreProperties("creditos")

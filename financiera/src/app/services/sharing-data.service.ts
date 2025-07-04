@@ -17,6 +17,8 @@ export class SharingDataService {
 
     private _selectClientEventEmitter = new EventEmitter();
 
+    private _errorsClientFormEventEmitter= new EventEmitter();
+
 
 
 
@@ -28,6 +30,9 @@ export class SharingDataService {
     private _findUserByIdEventEmitter = new EventEmitter();
     
     private _selectUserEventEmitter = new EventEmitter();
+
+    private _errorsUserFormEventEmitter= new EventEmitter();
+
   
 
 
@@ -39,6 +44,9 @@ export class SharingDataService {
     private _findCreditByIdEventEmitter = new EventEmitter();
     
     private _selectCreditEventEmitter = new EventEmitter();
+
+    private _errorsCreditFormEventEmitter= new EventEmitter();
+
 
 
 
@@ -64,6 +72,10 @@ export class SharingDataService {
     return this._selectClientEventEmitter;
   }
 
+  get errorsClientFormEventEmitter(){
+    return this._errorsClientFormEventEmitter;
+  }
+
  
 
  
@@ -83,6 +95,9 @@ export class SharingDataService {
   get selectUserEventEmitter(){
     return this._selectUserEventEmitter;
   }
+  get errorsUserFormEventEmitter(){
+    return this._errorsUserFormEventEmitter;
+  }
   
 
 
@@ -100,6 +115,9 @@ export class SharingDataService {
   }
   get selectCreditEventEmitter(){
     return this._selectCreditEventEmitter;
+  }
+  get errorsCreditFormEventEmitter(){
+    return this._errorsCreditFormEventEmitter;
   }
 
 

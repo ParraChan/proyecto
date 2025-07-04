@@ -15,12 +15,12 @@ import { Rol } from '../models/rol';
 @Component({
   selector: 'financiera-app',
   standalone: true,
-  imports: [NavbarComponent,RouterOutlet ],
+  imports: [NavbarComponent, RouterOutlet],
   templateUrl: 'financiera-app.component.html'
 })
 export class FinancieraAppComponent implements OnInit {
 
-  clientes : Cliente[]=[];
+  clientes: Cliente[] = [];
 
   usuarios: Usuario[] = [];
 
@@ -33,20 +33,18 @@ export class FinancieraAppComponent implements OnInit {
     private serviceC: CreditoService,
     private serviceR: RolService,
     private sharingData: SharingDataService,
-    private router : Router,
-    ){
+    private router: Router,
+  ) {
 
   }
   ngOnInit(): void {
-    this.service.findAll().subscribe(clientes=> this.clientes = clientes);
-    this.serviceU.findAll().subscribe(usuarios=>{
-      this.serviceU.findAll().subscribe(usuarios => {
-  //console.log('Usuarios cargados:', usuarios);
-  this.usuarios = usuarios;
-});
+    this.service.findAll().subscribe(clientes => this.clientes = clientes);
+    this.serviceU.findAll().subscribe(usuarios => {
+      this.serviceU.findAll().subscribe(usuarios => this.usuarios = usuarios);
 
-      this.usuarios = usuarios});
-    this.serviceC.findAll().subscribe(creditos=> this.creditos= creditos);
+      this.usuarios = usuarios
+    });
+    this.serviceC.findAll().subscribe(creditos => this.creditos = creditos);
     this.serviceR.findAll().subscribe(roles => {
       this.roles = roles
       //console.log('Roles cargados ',this.roles)
@@ -67,77 +65,88 @@ export class FinancieraAppComponent implements OnInit {
     this.findRolById();
   }
 
-  findRolById(){
-    this.sharingData.findRolByIdEventEmitter.subscribe(id=>{
-      const rol = this.roles.find(rol => rol.nombre_rol==id);
+  findRolById() {
+    this.sharingData.findRolByIdEventEmitter.subscribe(id => {
+      const rol = this.roles.find(rol => rol.nombre_rol == id);
 
       this.sharingData.selectRolEventEmitter.emit(rol);
     })
   }
 
-  findClientById(){
-    this.sharingData.findClientByIdEventEmitter.subscribe(id=>{
-      const cliente = this.clientes.find(cliente => cliente.id_cliente==id);
+  findClientById() {
+    this.sharingData.findClientByIdEventEmitter.subscribe(id => {
+      const cliente = this.clientes.find(cliente => cliente.id_cliente == id);
 
       this.sharingData.selectClientEventEmitter.emit(cliente);
     })
 
   }
 
-  findUserById(){
-    this.sharingData.findUserByIdEventEmitter.subscribe(id=>{
-      const usuario = this.usuarios.find(usuario => usuario.id_usuario==id)
+  findUserById() {
+    this.sharingData.findUserByIdEventEmitter.subscribe(id => {
+      const usuario = this.usuarios.find(usuario => usuario.id_usuario == id)
 
       this.sharingData.selectUserEventEmitter.emit(usuario);
     })
 
   }
 
-  findCreditById(){
-    this.sharingData.findCreditByIdEventEmitter.subscribe(id=>{
-      const credito = this.creditos.find(credito => credito.id_credito==id)
+  findCreditById() {
+    this.sharingData.findCreditByIdEventEmitter.subscribe(id => {
+      const credito = this.creditos.find(credito => credito.id_credito == id)
       this.sharingData.selectCreditEventEmitter.emit(credito);
     })
 
   }
 
 
-  addClient(){
-    this.sharingData.newClientEventEmitter.subscribe(cliente=>{
-       if(cliente.id_cliente>0){
-        this.service.update(cliente).subscribe(clienteUpdated=>{
-      this.clientes= this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente)?{... clienteUpdated}:c)
+  addClient() {
+    this.sharingData.newClientEventEmitter.subscribe(cliente => {
+      if (cliente.id_cliente > 0) {
+        this.service.update(cliente).subscribe({
+          next: (clienteUpdated) => {
+            this.clientes = this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente) ? { ...clienteUpdated } : c)
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/clientes']);
+            })
+          },
+          error: (err) => {
+
+            console.log(err.error);
+            this.sharingData.errorsClientFormEventEmitter.emit(err.error);
+
+          }
+        }
+        );
+
+        Swal.fire({
+          title: "Cliente actualizado",
+          text: "El cliente se ha actualizado correctamente",
+          width: 600,
+          padding: "3em",
+          color: "#716add",
+          background: "#fff", backdrop: `
+                           rgba(0,0,123,0.4)
+                           url("assets/img/cat.gif")
+                           left top
+                           no-repeat
+                         `
         });
-          this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+      } else {
+        this.service.create(cliente).subscribe({
+          next: (clienteNew) => {
+
+            this.clientes = [... this.clientes, { ...clienteNew }]
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/clientes']);
             })
-        Swal.fire({
-                title: "Cliente actualizado",
-                text: "El cliente se ha actualizado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
-                           rgba(0,0,123,0.4)
-                           url("assets/img/cat.gif")
-                           left top
-                           no-repeat
-                         `
-            });
-    }else{
-      this.service.create(cliente).subscribe(clienteNew=>{
-            
-        this.clientes =[... this.clientes, {... clienteNew}]
-        this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-              this.router.navigate(['/clientes']);
-            })
-        Swal.fire({
-                title: "Cliente creado",
-                text: "El usuario se ha creado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+            Swal.fire({
+              title: "Cliente creado",
+              text: "El usuario se ha creado correctamente",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff", backdrop: `
                            rgba(0,0,123,0.4)
                            url("assets/img/cat.gif")
                            left top
@@ -145,246 +154,288 @@ export class FinancieraAppComponent implements OnInit {
                          `
             });
 
-      })
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.sharingData.errorsClientFormEventEmitter.emit(err.error);
 
-    }
-         
-         
+
+          }
+        }
+        )//subscribe
+
+      }
+
+
 
     })
-   
+
   }
 
-  removeClient():void{
-    this.sharingData.idClientEventEmitter.subscribe(id =>{
+  removeClient(): void {
+    this.sharingData.idClientEventEmitter.subscribe(id => {
 
 
-                Swal.fire({
-          title: "Estas seguro?",
-          text: "no hay marcha atras!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Si, borralo"
-        }).then((result) => {
-          if (result.isConfirmed) {
+      Swal.fire({
+        title: "Estas seguro?",
+        text: "no hay marcha atras!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, borralo"
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-            this.service.remove(id).subscribe(()=>{
-            this.clientes= this.clientes.filter(cliente =>cliente.id_cliente!= id)
-            this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-            this.router.navigate(['/clientes']);
-             });
+          this.service.remove(id).subscribe(() => {
+            this.clientes = this.clientes.filter(cliente => cliente.id_cliente != id)
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/clientes']);
+            });
 
-            })
-           
-            Swal.fire({
-                title: "Eliminado",
-                text: "El cliente se ha eliminado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+          })
+
+          Swal.fire({
+            title: "Eliminado",
+            text: "El cliente se ha eliminado correctamente",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff", backdrop: `
                             rgba(0,0,123,0.4)
                             url("assets/img/SadNyan.webp")
                             left top
                             no-repeat
                           `
-            });
-          }
-        });
+          });
+        }
+      });
 
-            })
-  
-   
+    })
+
+
   }
 
 
 
-  addUser(){
+  addUser() {
 
-    this.sharingData.newUserEventEmitter.subscribe(usuario=>{
-       if(usuario.id_usuario>0){
-        this.serviceU.update(usuario).subscribe(usuarioUpdated=>{
-          this.usuarios= this.usuarios.map(u => (u.id_usuario== usuarioUpdated.id_usuario?{... usuarioUpdated}:u))
-          this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+    this.sharingData.newUserEventEmitter.subscribe(usuario => {
+      if (usuario.id_usuario > 0) {
+        this.serviceU.update(usuario).subscribe({
+          next: (usuarioUpdated) => {
+            this.usuarios = this.usuarios.map(u => (u.id_usuario == usuarioUpdated.id_usuario ? { ...usuarioUpdated } : u))
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/usuarios']);
-            }) 
-          Swal.fire({
-                title: "Usuario actualizado",
-                text: "El usuario se ha actualizado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+            })
+            Swal.fire({
+              title: "Usuario actualizado",
+              text: "El usuario se ha actualizado correctamente",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff", backdrop: `
                            rgba(0,0,123,0.4)
                            url("assets/img/cat.gif")
                            left top
                            no-repeat
                          `
             });
-        })
-      }else{
-      this.serviceU.create(usuario).subscribe(userNew=>{
-        this.usuarios= [... this.usuarios, {... userNew}]
-        this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.sharingData.errorsUserFormEventEmitter.emit(err.error);
+
+          }
+        }
+        )
+      } else {
+        this.serviceU.create(usuario).subscribe({
+          next: (userNew) => {
+            this.usuarios = [... this.usuarios, { ...userNew }]
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/usuarios']);
-            }) 
-        Swal.fire({
-                title: "Usuario creado",
-                text: "El usuario se ha creado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+            })
+            Swal.fire({
+              title: "Usuario creado",
+              text: "El usuario se ha creado correctamente",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff", backdrop: `
                            rgba(0,0,123,0.4)
                            url("assets/img/cat.gif")
                            left top
                            no-repeat
                          `
-            });  
-      })
-   
-    
-    }
-         this.router.navigate(['/usuarios']);
+            });
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.sharingData.errorsUserFormEventEmitter.emit(err.error);
+
+          }
+        }
+        )
+
+
+      }
     });
-   
+
   }
 
-  removeUser():void{
-    this.sharingData.idUserEventEmitter.subscribe(id=>{
-          Swal.fire({
-          title: "Are you sure?",
-          text: "You won't be able to revert this!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-          if (result.isConfirmed) {
-              //console.log(id);
-              this.serviceU.remove(id).subscribe(() =>{
-              this.usuarios= this.usuarios.filter(usuario =>usuario.id_usuario!= id)
-              this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+  removeUser(): void {
+    this.sharingData.idUserEventEmitter.subscribe(id => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //console.log(id);
+          this.serviceU.remove(id).subscribe(() => {
+            this.usuarios = this.usuarios.filter(usuario => usuario.id_usuario != id)
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/usuarios']);
             })
 
-              })
-          
-            Swal.fire({
-                title: "Eliminado",
-                text: "El usuario se ha eliminado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+          })
+
+          Swal.fire({
+            title: "Eliminado",
+            text: "El usuario se ha eliminado correctamente",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff", backdrop: `
                             rgba(0,0,123,0.4)
                             url("assets/img/SadNyan.webp")
                             left top
                             no-repeat
                           `
-            });
-          }
-        });
+          });
+        }
+      });
 
     })
   }
 
- 
 
-  addCredit(){
-    this.sharingData.newCreditEventEmitter.subscribe(credito=>{
-       if(credito.id_credito>0){
-        this.serviceC.update(credito).subscribe(creditoUpdated=>{
-        //  console.log(this.creditos)
-      this.creditos= this.creditos.map(cr => (cr.id_credito == creditoUpdated.id_credito)?{... creditoUpdated}:cr)
-            
-      this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+
+  addCredit() {
+    this.sharingData.newCreditEventEmitter.subscribe(credito => {
+      if (credito.id_credito > 0) {
+        this.serviceC.update(credito).subscribe({
+          next: (creditoUpdated) => {
+            //  console.log(this.creditos)
+            this.creditos = this.creditos.map(cr => (cr.id_credito == creditoUpdated.id_credito) ? { ...creditoUpdated } : cr)
+
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/creditos']);
             })
-        })
-       Swal.fire({
-                title: "Credito actualizado",
-                text: "El credito se ha actualizado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+
+
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.sharingData.errorsCreditFormEventEmitter.emit(err.error);
+
+          }
+        }
+
+        );
+        Swal.fire({
+          title: "Credito actualizado",
+          text: "El credito se ha actualizado correctamente",
+          width: 600,
+          padding: "3em",
+          color: "#716add",
+          background: "#fff", backdrop: `
+                           rgba(0,0,123,0.4)
+                           url("assets/img/cat.gif")
+                           left top
+                           no-repeat
+                         `
+        });
+
+      } else {
+        this.serviceC.create(credito).subscribe({
+          next: (creditoNew) => {
+            this.creditos = [... this.creditos, { ...creditoNew }]
+
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/creditos']);
+            })
+
+            Swal.fire({
+              title: "Credito actualizado",
+              text: "El credito se ha actualizado correctamente",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff", backdrop: `
                            rgba(0,0,123,0.4)
                            url("assets/img/cat.gif")
                            left top
                            no-repeat
                          `
             });
-    }else{
-      this.serviceC.create(credito).subscribe(creditoNew=>{
-    this.creditos =[... this.creditos, {... creditoNew}]
 
-    this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
-              this.router.navigate(['/clientes']);
-            })
+          },
+          error: (err) => {
+            console.log(err.error);
+            this.sharingData.errorsCreditFormEventEmitter.emit(err.error);
 
-     Swal.fire({
-                title: "Credito actualizado",
-                text: "El credito se ha actualizado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
-                           rgba(0,0,123,0.4)
-                           url("assets/img/cat.gif")
-                           left top
-                           no-repeat
-                         `
-            });
+          }
+        }
+        )//subscrine
 
-      })
 
-   
-    }
-         this.router.navigate(['/creditos']);
+      }
 
-    
+
     })
   }
 
-  removeCredit(){
-    this.sharingData.idCreditEventEmitter.subscribe(id=>{
+  removeCredit() {
+    this.sharingData.idCreditEventEmitter.subscribe(id => {
 
-           Swal.fire({
-          title: "Estas seguro?",
-          text: "no hay marcha atras!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Si, borralo"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.serviceC.remove(id).subscribe(()=>{
-                 this.creditos= this.creditos.filter(credito =>credito.id_credito!= id)
-            this.router.navigate(['/actualizar'],{skipLocationChange:true}).then(()=>{
+      Swal.fire({
+        title: "Estas seguro?",
+        text: "no hay marcha atras!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, borralo"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.serviceC.remove(id).subscribe(() => {
+            this.creditos = this.creditos.filter(credito => credito.id_credito != id)
+            this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/creditos']);
-             })
             })
-           
-            Swal.fire({
-                title: "Eliminado",
-                text: "El credito se ha eliminado correctamente",
-                width: 600,
-                padding: "3em",
-                color: "#716add",
-                background: "#fff", backdrop: `
+          })
+
+          Swal.fire({
+            title: "Eliminado",
+            text: "El credito se ha eliminado correctamente",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff", backdrop: `
                             rgba(0,0,123,0.4)
                             url("assets/img/SadNyan.webp")
                             left top
                             no-repeat
                           `
-            });
-          }
-        });
+          });
+        }
+      });
 
     })
   }

@@ -24,6 +24,9 @@ export class CreditosFormComponent implements OnInit {
 
   @Input() usuarios: Usuario[]=[];
 
+  errors: any={};
+  
+
   constructor(
     private serviceC: ClienteService,
     private serviceU: UsuarioService,
@@ -33,6 +36,9 @@ export class CreditosFormComponent implements OnInit {
         this.credito = new Credito();
     }
   ngOnInit(): void {
+
+    this.sharingData.errorsCreditFormEventEmitter.subscribe(errors=> this.errors= errors);
+
     
     this.serviceC.findAll().subscribe((clientes)=>{
       this.clientes = clientes;
