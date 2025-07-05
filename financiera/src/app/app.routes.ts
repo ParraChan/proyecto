@@ -6,6 +6,7 @@ import { UsuarioFormComponent } from './components/usuario-form/usuario-form.com
 import { CreditoComponent } from './components/credito/credito.component';
 import { CreditosFormComponent } from './components/credito-form/creditos-form.component';
 import { ActualizarComponent } from './components/actualizar/actualizar.component';
+import { AuthComponent } from './components/auth/auth.component';
 
 export const routes: Routes = [
     /* 
@@ -55,6 +56,10 @@ export const routes: Routes = [
     {
         path: 'actualizar',
         component: ActualizarComponent,
+    },
+    {
+        path: 'login',
+        component: AuthComponent,
     }
 
     
