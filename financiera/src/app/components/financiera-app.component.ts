@@ -106,6 +106,19 @@ export class FinancieraAppComponent implements OnInit {
         this.service.update(cliente).subscribe({
           next: (clienteUpdated) => {
             this.clientes = this.clientes.map(c => (c.id_cliente == clienteUpdated.id_cliente) ? { ...clienteUpdated } : c)
+               Swal.fire({
+            title: "Editado",
+            text: "El cliente se ha sido editado correctamente",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff", backdrop: `
+                            rgba(0,0,123,0.4)
+                            url("assets/img/cat.gif")
+                            left top
+                            no-repeat
+                          `
+          });
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/clientes']);
             })
