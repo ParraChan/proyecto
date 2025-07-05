@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { SharingDataService } from '../../services/sharing-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class ClienteFormComponent implements OnInit {
     private sharingData: SharingDataService,
     private route: ActivatedRoute,
     private service: ClienteService,
+    private router: Router,
   ){
     this.cliente = new Cliente();
 
@@ -54,6 +55,9 @@ export class ClienteFormComponent implements OnInit {
     this.cliente= new Cliente();
       userForm.resetForm();
       userForm.reset();
+        this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/clientes']);
+            })
 
   }
 

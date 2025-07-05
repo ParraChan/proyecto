@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Credito } from '../../models/credito';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
@@ -37,7 +37,9 @@ export class CreditosFormComponent implements OnInit {
     private serviceU: UsuarioService,
     private sharingData: SharingDataService,
     private route: ActivatedRoute,
-    private service: CreditoService,){
+    private service: CreditoService,
+    private router: Router,
+  ){
         this.credito = new Credito();
     }
   ngOnInit(): void {
@@ -72,6 +74,9 @@ export class CreditosFormComponent implements OnInit {
     this.credito = new Credito();
     userForm.resetForm();
     userForm.reset();
+     this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/creditos']);
+            })
   }
 
 }
