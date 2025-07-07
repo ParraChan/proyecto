@@ -9,13 +9,13 @@ import { ActualizarComponent } from './components/actualizar/actualizar.componen
 import { PageComponent } from './components/page/page.component';
 
 export const routes: Routes = [
-    /* 
+     
     {
         path:'',
         pathMatch:'full',
-        redirectTo: '/'
+        redirectTo: '/page'
     },
-*/
+
     {
         path: 'clientes',
         component: ClienteComponent,
