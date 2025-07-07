@@ -65,16 +65,11 @@ public class ClienteController {
         if (result.hasErrors()) return validation(result);
 
         
-        Optional<Cliente> clienteOptional = service.findById(id);
+        Optional<Cliente> clienteOptional = service.update(cliente, id);
         if (clienteOptional.isPresent()) {
-            Cliente clienteDb = clienteOptional.get();
-            clienteDb.setNombre(cliente.getNombre());
-            clienteDb.setApellido_paterno(cliente.getApellido_paterno());
-            clienteDb.setApellido_materno(cliente.getApellido_materno());
-            clienteDb.setFecha_nacimiento(cliente.getFecha_nacimiento());
-            clienteDb.setIngresos_mensuales(cliente.getIngresos_mensuales());
 
-            return ResponseEntity.ok(service.save(clienteDb));
+            return ResponseEntity.ok(service.save(clienteOptional.orElseThrow()));
+            
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro cliente para actualizar "));

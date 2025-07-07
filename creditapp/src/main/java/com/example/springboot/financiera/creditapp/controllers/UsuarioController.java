@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot.financiera.creditapp.entities.Usuario;
+import com.example.springboot.financiera.creditapp.models.UsuarioRequest;
 import com.example.springboot.financiera.creditapp.services.usuario.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+  
 
     @GetMapping
     public List<Usuario> list(){
@@ -57,20 +60,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Usuario usuario, BindingResult result){
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody UsuarioRequest usuario, BindingResult result){
         if (result.hasErrors()) return validation(result);
 
-        Optional<Usuario> usuarOptional = usuarioService.findById(id);
+        Optional<Usuario> usuarOptional = usuarioService.update(usuario, id);
         if(usuarOptional.isPresent()){
-            Usuario usuarioDb= usuarOptional.get();
-            usuarioDb.setNombre(usuario.getNombre());
-            usuarioDb.setApellido_paterno(usuario.getApellido_paterno());
-            usuarioDb.setApellido_materno(usuario.getApellido_materno());
-            usuarioDb.setFecha_nacimiento(usuario.getFecha_nacimiento());
-            usuarioDb.setFecha_ingreso(usuario.getFecha_ingreso());
-            usuarioDb.setPuesto(usuario.getPuesto());
-
-            return ResponseEntity.ok(usuarioService.save(usuarioDb));
+           
+            return ResponseEntity.ok(usuarioService.save(usuarOptional.orElseThrow()));
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro usuario para actualizar "));
