@@ -20,7 +20,7 @@ export const routes: Routes = [
     {
         path: 'clientes',
         component: ClienteComponent,
-        //canActivate: [authGuard]
+        canActivate: [authGuard]
         
     },
     {

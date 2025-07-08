@@ -45,18 +45,20 @@ public class SpringSecurityConfig {
         return http.authorizeHttpRequests( authz -> 
         authz
         
-        .requestMatchers(HttpMethod.GET,"/api/clientes").permitAll()
+        .requestMatchers(HttpMethod.GET,"/api/clientes").hasAnyRole("CAPTURISTA", "SUPERVISOR")
         //.requestMatchers(HttpMethod.GET,"/api/clientes").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.GET,"/api/clientes/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.POST, "/api/clientes").hasRole("CAPTURISTA")
         .requestMatchers(HttpMethod.PUT, "/api/clientes/{id}").hasRole("CAPTURISTA")
         .requestMatchers(HttpMethod.DELETE, "/api/clientes/{id}").hasRole("CAPTURISTA")
 
-        .requestMatchers(HttpMethod.GET,"/api/creditos").hasAnyRole("CAPTURISTA","SUPERVISOR")
+        .requestMatchers(HttpMethod.GET,"/api/creditos").hasAnyRole("CAPTURISTA","SUPERVISOR","ASESOR")
         .requestMatchers(HttpMethod.GET,"/api/creditos/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.POST, "/api/creditos").hasRole("CAPTURISTA")
         .requestMatchers(HttpMethod.PUT, "/api/creditos/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.DELETE, "/api/creditos/{id}").hasRole("CAPTURISTA")
+        .requestMatchers(HttpMethod.GET, "/api/creditos/asesor").hasRole("ASESOR")
+        
 
         .requestMatchers(HttpMethod.GET,"/api/usuarios").hasRole("SUPERVISOR")
         .requestMatchers(HttpMethod.GET,"/api/usuarios/{id}").hasRole("SUPERVISOR")

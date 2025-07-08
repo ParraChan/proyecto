@@ -4,16 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springboot.financiera.creditapp.entities.Cliente;
 import com.example.springboot.financiera.creditapp.repositories.ClienteRepository;
 
-import io.jsonwebtoken.security.Password;
 
 @Service
 public class ClienteServiceImplements implements ClienteService {

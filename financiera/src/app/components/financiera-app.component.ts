@@ -11,6 +11,7 @@ import { Credito } from '../models/credito';
 import { CreditoService } from '../services/credito.service';
 import { RolService } from '../services/rol.service';
 import { Rol } from '../models/rol';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'financiera-app',
@@ -34,6 +35,7 @@ export class FinancieraAppComponent implements OnInit {
     private serviceR: RolService,
     private sharingData: SharingDataService,
     private router: Router,
+    private authService: AuthService
   ) {
 
   }
@@ -57,12 +59,66 @@ export class FinancieraAppComponent implements OnInit {
     this.addUser();
     this.removeUser();
     this.findUserById();
+    this.handlerLogin();
 
     this.addCredit();
     this.removeCredit();
     this.findCreditById();
 
     this.findRolById();
+  }
+
+  handlerLogin() {
+    this.sharingData.HandlerLoginEventEmitter.subscribe(({ nombreusuario, contrasena }) => {
+      console.log(nombreusuario + ' ' + contrasena);
+
+      this.authService.loginUsuario({ nombreusuario, contrasena }).subscribe({
+        next: response => {
+          const token = response.token;
+          //console.log(token);
+          const payload = this.authService.getPayload(token);
+
+          //AQUI SE PARSEA LOS ROLESSSSSSS
+
+          const rolSinLimpiar = payload.authorities;
+        //  console.log('ROL SUCIO ',rolSinLimpiar);
+
+          const rolLimpiado = rolSinLimpiar.replace(/\\/g, '');
+         // console.log('ROL LIMPIO PERO SIN FORMATO',rolLimpiado);
+
+          const authorities = JSON.parse(rolLimpiado);
+         // console.log( 'Yeison kkkkk: ',authorities);
+
+          const rol = authorities.length > 0 ? authorities[0].authority : null;
+        //  console.log('ROL :D :', rol);
+
+
+          const usuario = {
+            nombreusuario: payload.sub,
+            rol: rol
+          }
+
+          const login = {
+            usuario,
+            isAuth: true,
+
+          }
+          console.log(payload);
+          this.authService.token = token;
+          this.authService.usuario = login;
+          this.router.navigate(['/clientes']);
+
+        },
+        error: error => {
+          if (error.status == 401) {
+            Swal.fire('Error en el login', error.error.message, 'error');
+          } else {
+            throw error;
+          }
+
+        }
+      })
+    })
   }
 
   findRolById() {
@@ -118,9 +174,9 @@ export class FinancieraAppComponent implements OnInit {
           }
         }
         );
-     
 
-        
+
+
       } else {
         this.service.create(cliente).subscribe({
           next: (clienteNew) => {
@@ -129,7 +185,7 @@ export class FinancieraAppComponent implements OnInit {
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/clientes']);
             })
-           
+
 
           },
           error: (err) => {
@@ -142,12 +198,12 @@ export class FinancieraAppComponent implements OnInit {
         )//subscribe
 
       }
-      
-    
+
+
 
 
     }
-  )
+    )
 
   }
 

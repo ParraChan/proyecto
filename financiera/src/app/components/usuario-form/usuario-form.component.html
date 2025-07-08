@@ -7,6 +7,7 @@
       </h5>
     </div>
     <div class="card-body">
+      @if(authService.rol==='ROLE_SUPERVISOR'){
       <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
         <div>
           <input
@@ -121,6 +122,9 @@
           </button>
         </div>
       </form>
+    }@else {
+            <div class="alert alert-warning">No tienes acceso a este recurso</div>
+    }
     </div>
   </div>
 </div>

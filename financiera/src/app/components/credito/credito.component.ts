@@ -3,6 +3,7 @@ import { Credito } from '../../models/credito';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Router, RouterModule } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'credito',
@@ -19,6 +20,7 @@ export class CreditoComponent implements OnInit {
       private sharingData : SharingDataService,
       private router: Router,
       private service: CreditoService,
+      public authService: AuthService,
     ){}
       
   ngOnInit(): void {

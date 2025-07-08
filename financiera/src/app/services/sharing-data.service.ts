@@ -33,6 +33,8 @@ export class SharingDataService {
 
     private _errorsUserFormEventEmitter= new EventEmitter();
 
+    private _HandlerLoginEventEmitter = new EventEmitter();
+
   
 
 
@@ -97,6 +99,10 @@ export class SharingDataService {
   }
   get errorsUserFormEventEmitter(){
     return this._errorsUserFormEventEmitter;
+  }
+
+  get HandlerLoginEventEmitter(){
+    return this._HandlerLoginEventEmitter;
   }
   
 

@@ -31,7 +31,8 @@ import jakarta.persistence.UniqueConstraint;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id_usuario;
+    @Column(name = "id_usuario")
+    private Long idUsuario;
 
     @NotEmpty(message = "El nombre no puede estar vacio")
     private String nombre; 
@@ -76,13 +77,7 @@ import jakarta.persistence.UniqueConstraint;
     @OneToMany(mappedBy = "usuario")
     private List<Credito> creditos;
 
-    public Long getId_usuario() {
-        return id_usuario;
-    }
-
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
-    }
+  
 
     public String getNombre() {
         return nombre;
@@ -148,6 +143,14 @@ import jakarta.persistence.UniqueConstraint;
 
     public void setNombreusuario(String nombreusuario) {
         this.nombreusuario = nombreusuario;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
    

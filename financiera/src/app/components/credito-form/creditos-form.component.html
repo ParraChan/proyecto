@@ -7,6 +7,8 @@
       </h5>
     </div>
     <div class="card-body">
+      @if(authService.rol==='ROLE_SUPERVISOR' ||
+      authService.rol==='ROLE_CAPTURISTA'){
       <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
         <div>
           <input
@@ -14,6 +16,7 @@
             name="monto_credito"
             [(ngModel)]="credito.monto_credito"
             class="form-control my-2"
+            [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
           />
           @if(errors?.monto_credito){
           <div class="text-danger">{{ errors.monto_credito }}</div>
@@ -27,6 +30,7 @@
             name="fecha_entrega"
             [(ngModel)]="credito.fecha_entrega"
             class="form-control my-2"
+            [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
           />
           @if(errors?.fecha_entrega){
           <div class="text-danger">{{ errors.fecha_entrega }}</div>
@@ -40,6 +44,7 @@
             name="numero_pagos"
             id="numero_pagos"
             class="form-control my-2"
+            [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
           >
             <option [ngValue]="null" disabled>
               Seleccione número de pagos
@@ -48,7 +53,9 @@
               {{ numero }}
             </option>
           </select>
-          <div class="text-danger" *ngIf="errors?.numero_pagos"> {{errors.numero_pagos}}</div>
+          <div class="text-danger" *ngIf="errors?.numero_pagos">
+            {{ errors.numero_pagos }}
+          </div>
         </div>
 
         <div>
@@ -58,6 +65,7 @@
             name="frecuencia_pagos"
             id="frecuencia_pagos"
             class="form-control my-2"
+            [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
           >
             <option [ngValue]="null" disabled>
               Seleccione la frecuencia de pago
@@ -69,10 +77,11 @@
               {{ frecuencia | titlecase }}
             </option>
           </select>
-          <div class="text-danger" *ngIf="errors?.frecuencia_pagos"> {{errors.frecuencia_pagos}}</div>
-
+          <div class="text-danger" *ngIf="errors?.frecuencia_pagos">
+            {{ errors.frecuencia_pagos }}
+          </div>
         </div>
-
+        @if(authService.rol==='ROLE_SUPERVISOR'){
         <div>
           <select
             [(ngModel)]="credito.estatus_pago"
@@ -91,30 +100,36 @@
               {{ estatus }}
             </option>
           </select>
-          <div class="text-danger" *ngIf="errors?.estatus_pago"> {{errors.estatus_pago}}</div>
-
+          <div class="text-danger" *ngIf="errors?.estatus_pago">
+            {{ errors.estatus_pago }}
+          </div>
         </div>
-
+        }@else if (authService.rol === 'ROLE_CAPTURISTA') {
+        <div class="form-control my-2" readonly>
+          Estatus de pago: {{ credito.estatus_pago }}
+        </div>
+        }
         <div>
           <select
             [(ngModel)]="credito.cliente"
             name="cliente"
             id="cliente"
             class="form-control my-2"
+            [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
           >
             <option placeholder="Cliente" [ngValue]="null" disabled selected>
               Seleccione un cliente
             </option>
-            <option 
-            *ngFor="let cliente of clientes" [ngValue]="cliente">
+            <option *ngFor="let cliente of clientes" [ngValue]="cliente">
               {{ cliente.id_cliente }} ({{ cliente.nombre }}
               {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
             </option>
           </select>
-          <div class="text-danger" *ngIf="errors?.cliente"> {{errors.cliente}}</div>
-
+          <div class="text-danger" *ngIf="errors?.cliente">
+            {{ errors.cliente }}
+          </div>
         </div>
-
+        @if(authService.rol==='ROLE_SUPERVISOR'){
         <div>
           <select
             [(ngModel)]="credito.usuario"
@@ -130,7 +145,7 @@
             </option>
           </select>
         </div>
-
+        }
         <div>
           <button
             type="submit"
@@ -144,6 +159,7 @@
           </button>
         </div>
       </form>
+      }
     </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { Cliente } from '../../models/cliente';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'cliente-form',
@@ -22,6 +23,7 @@ export class ClienteFormComponent implements OnInit {
     private sharingData: SharingDataService,
     private route: ActivatedRoute,
     private service: ClienteService,
+    public authService : AuthService,
   ){
     this.cliente = new Cliente();
 

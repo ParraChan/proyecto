@@ -1,4 +1,5 @@
 <h3>{{title}}</h3>
+@if(authService.rol==='ROLE_SUPERVISOR' || authService.rol==='ROLE_CAPTURISTA'){
 @if(clientes.length==0){
             <div class="alert alert-warning">No hay registros</div> 
             }@else {
@@ -22,13 +23,13 @@
                         <td> {{cliente.apellido_materno}}</td>
                         <td> {{cliente.ingresos_mensuales}}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm"
+                            <button class="btn btn-outline-danger btn-sm"
                             (click)="onRemoveClient(cliente.id_cliente)">
                                 Eliminar
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm" 
+                            <button class="btn btn-outline-info btn-sm" 
                             [routerLink]="['/clientes/editar', cliente.id_cliente]">
                                 Editar
                             </button>
@@ -40,4 +41,4 @@
                 </tbody>
             </table>
 
-            }
+            }}

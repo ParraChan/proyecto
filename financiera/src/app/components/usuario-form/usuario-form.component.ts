@@ -7,6 +7,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Rol } from '../../models/rol';
 import { RolService } from '../../services/rol.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'usuario-form',
@@ -29,6 +30,7 @@ export class UsuarioFormComponent  implements OnInit{
       private sharingData: SharingDataService,
       private route: ActivatedRoute,
       private service: UsuarioService,
+      public authService : AuthService,
     ){
         this.usuario = new Usuario();
         

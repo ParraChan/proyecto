@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot.financiera.creditapp.entities.Credito;
+import com.example.springboot.financiera.creditapp.repositories.CreditoRepository;
 import com.example.springboot.financiera.creditapp.services.credito.CreditoService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,9 @@ public class CreditoController {
 
     @Autowired
     private CreditoService creditoService;
+
+    @Autowired
+    private CreditoRepository creditoRepository;
 
     @GetMapping
     public List<Credito> list() {
@@ -95,9 +100,15 @@ public class CreditoController {
     private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(error -> {
-            errors.put(error.getField(),  error.getDefaultMessage());
+            errors.put(error.getField(), error.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @GetMapping("/creditos/asesor/{id}")
+    @PreAuthorize("hasRole('ASESOR')")
+    public List<Credito> getCreditosByAsesor(@PathVariable Long id) {
+        return creditoRepository.findByUsuarioIdUsuario(id);
     }
 
 }

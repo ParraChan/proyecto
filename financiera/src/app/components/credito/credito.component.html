@@ -1,5 +1,7 @@
 <h3>{{title}}</h3>
-@if(creditos.length==0){
+@if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA' || authService.rol==='ROLE_ASESOR'){
+    @if(authService.rol==='ROLE_ASESOR'){
+    @if(creditos.length==0){
             <div class="alert alert-warning">No hay registros</div> 
             }@else {
                 <table class="table table-hover table-striped">
@@ -13,8 +15,10 @@
                         <th>Estatus</th>
                         <th>Cliente</th>
                         <th>Asesor</th>
+                         @if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA'){
                         <th>Eliminar</th>
                         <th>Editar</th>
+                         }
                     </tr>
                 </thead>
                 <tbody>
@@ -29,18 +33,20 @@
                         <td> {{credito.estatus_pago}}</td>
                         <td>{{credito.cliente.nombre}}</td>
                         <td>{{credito.usuario?.nombre || 'Sin asesor'}}</td>
+                        @if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA'){
                         <td>
-                            <button class="btn btn-danger btn-sm"
+                            <button class="btn btn-outline-danger btn-sm"
                             (click)="onRemoveCredit(credito.id_credito)">
                                 Eliminar
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm"
+                            <button class="btn btn-outline-info btn-sm"
                             [routerLink]="['/creditos/editar', credito.id_credito]">
                                 Editar
                             </button>
                         </td>
+                    }
                     </tr>
 
                     }
@@ -49,3 +55,5 @@
             </table>
 
             }
+        }
+        }

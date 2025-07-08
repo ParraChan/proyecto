@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,11 +35,32 @@ public class UsuarioServiceImplements implements UsuarioService {
     @Override
     @Transactional
     public Usuario save(Usuario usuario) {
+
+        validarDuplicados(usuario);
             usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-       
-            validarDuplicados(usuario);
 
         return usuarioRepository.save(usuario);
+    }
+    
+    @Override
+    public Optional<Usuario> update(UsuarioRequest usuario, Long id) {
+          Optional<Usuario> usuarOptional = usuarioRepository.findById(id);
+       
+         if(usuarOptional.isPresent()){
+            Usuario usuarioDb= usuarOptional.get();
+            
+            usuarioDb.setNombre(usuario.getNombre());
+            usuarioDb.setApellido_paterno(usuario.getApellido_paterno());
+            usuarioDb.setApellido_materno(usuario.getApellido_materno());
+            usuarioDb.setFecha_nacimiento(usuario.getFecha_nacimiento());
+            usuarioDb.setFecha_ingreso(usuario.getFecha_ingreso());
+        
+
+            return Optional.of(usuarioRepository.save(usuarioDb));
+
+        }
+        return Optional.empty();
+
     }
 
     @Override
@@ -51,31 +71,11 @@ public class UsuarioServiceImplements implements UsuarioService {
     private void validarDuplicados(Usuario usuario){
         Optional<Usuario> existente = usuarioRepository.findByNombreusuario(usuario.getNombreusuario());
 
-    if (existente.isPresent() && !existente.get().getId_usuario().equals(usuario.getId_usuario())) {    
+    if (existente.isPresent() && !existente.get().getIdUsuario().equals(usuario.getIdUsuario())) {    
     throw new IllegalArgumentException("El usuario ya existe");
 }
     }
 
-    @Override
-    public Optional<Usuario> update(UsuarioRequest usuario, Long id) {
-         
-         Optional<Usuario> usuarOptional = usuarioRepository.findById(id);
-        if(usuarOptional.isPresent()){
-            Usuario usuarioDb= usuarOptional.get();
-            usuarioDb.setNombre(usuario.getNombre());
-            usuarioDb.setApellido_paterno(usuario.getApellido_paterno());
-            usuarioDb.setApellido_materno(usuario.getApellido_materno());
-            usuarioDb.setFecha_nacimiento(usuario.getFecha_nacimiento());
-            usuarioDb.setFecha_ingreso(usuario.getFecha_ingreso());
-          //  usuarioDb.setPuesto(usuario.getPuesto());
-            //usuarioDb.setNombreusuario(usuario.getNombreusuario());
-
-                        return Optional.of(usuarioRepository.save(usuarioDb));
-
-        }
-        return Optional.empty();
-
-    }
 
     
 

@@ -66,7 +66,7 @@ public class UsuarioController {
         Optional<Usuario> usuarOptional = usuarioService.update(usuario, id);
         if(usuarOptional.isPresent()){
            
-            return ResponseEntity.ok(usuarioService.save(usuarOptional.orElseThrow()));
+            return ResponseEntity.ok((usuarOptional.orElseThrow()));
 
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro usuario para actualizar "));

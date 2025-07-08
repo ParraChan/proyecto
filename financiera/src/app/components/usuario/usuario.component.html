@@ -1,4 +1,5 @@
 <h3>{{title}}</h3>
+@if(authService.rol==='ROLE_SUPERVISOR'){
 @if(usuarios.length==0){
             <div class="alert alert-warning">No hay registros</div> 
             }@else {
@@ -22,13 +23,13 @@
                         <td> {{usuario.apellido_materno}}</td>
                         <td> {{usuario.puesto.nombre_rol}}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm"
+                            <button class="btn btn-outline-danger btn-sm"
                             (click)="onRemoveUser(usuario.id_usuario)">
                                 Eliminar
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-info btn-sm"
+                            <button class="btn btn-outline-info btn-sm"
                             [routerLink]="['/usuarios/editar', usuario.id_usuario]">
                                 Editar
                             </button>
@@ -41,3 +42,6 @@
             </table>
 
             }
+        }@else {
+            <div class="alert alert-warning">No tienes acceso a este recurso</div>
+        }

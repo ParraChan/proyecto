@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import { Usuario } from '../../models/usuario';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-creditos-form',
@@ -37,10 +38,16 @@ export class CreditosFormComponent implements OnInit {
     private serviceU: UsuarioService,
     private sharingData: SharingDataService,
     private route: ActivatedRoute,
-    private service: CreditoService,){
+    private service: CreditoService,
+    public authService : AuthService,
+  ){
         this.credito = new Credito();
     }
   ngOnInit(): void {
+
+    if(this.authService.rol==='ROLE_CAPTURISTA'){
+      this.credito.estatus_pago= 'Pendiente'
+    }
 
     this.sharingData.errorsCreditFormEventEmitter.subscribe(errors=> this.errors= errors);
 

@@ -16,8 +16,10 @@ public interface UsuarioService {
 
     Usuario save(Usuario usuario);
 
+    Optional<Usuario> update(UsuarioRequest usuario, Long id);
+
     void deleteById(Long id_usuario);
 
-    Optional<Usuario> update(UsuarioRequest usuario, Long id);
+    
 }
 
