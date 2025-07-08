@@ -7,51 +7,68 @@ import { CreditoComponent } from './components/credito/credito.component';
 import { CreditosFormComponent } from './components/credito-form/creditos-form.component';
 import { ActualizarComponent } from './components/actualizar/actualizar.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    /* 
+     
     {
         path:'',
         pathMatch:'full',
-        redirectTo: '/'
+        redirectTo: '/clientes'
     },
-*/
+
     {
         path: 'clientes',
         component: ClienteComponent,
+        //canActivate: [authGuard]
         
     },
     {
         path: 'clientes/crear',
         component: ClienteFormComponent,
+        canActivate: [authGuard]
     },
     {
         path: 'clientes/editar/:id',
         component: ClienteFormComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'usuarios',
         component: UsuarioComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'usuarios/crear',
         component: UsuarioFormComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'usuarios/editar/:id',
         component: UsuarioFormComponent,
+        canActivate: [authGuard]
+
     },
     {
         path:   'creditos',
         component: CreditoComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'creditos/crear',
         component: CreditosFormComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'creditos/editar/:id',
         component: CreditosFormComponent,
+        canActivate: [authGuard]
+
     },
     {
         path: 'actualizar',

@@ -3,17 +3,19 @@
     <h5 class="card-title">Pagina de inicio de sesion</h5>
   </div>
   <div class="card-body">
-    <form >
+    <form (ngSubmit)="onSubmit()">
       <input
         name="username"
         class="form-control my-2 w-25"
         placeholder="Usuario"
+        [(ngModel)]="usuario.nombreusuario"
       />
       <input
         name="password"
         class="form-control my-2 w-25"
         type="password"
         placeholder="Contraseña"
+        [(ngModel)]="usuario.contrasena"
       />
       <button class="btn btn-primary" type="submit">Iniciar sesion</button>
     </form>
