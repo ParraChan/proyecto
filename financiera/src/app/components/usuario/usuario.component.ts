@@ -4,11 +4,12 @@ import { Router, RouterModule } from '@angular/router';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'usuario',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,CommonModule],
   templateUrl: './usuario.component.html'
 })
 export class UsuarioComponent implements OnInit {
@@ -28,6 +29,9 @@ export class UsuarioComponent implements OnInit {
     ){}
 
   ngOnInit(): void {
+    if (!this.authService.authenticated()) {
+    return;
+  }
     //this.rolUsuario = this.authService.rol;
    // console.log('ROL:', this.authService.rol);
         this.service.findAll().subscribe(usuarios=> this.usuarios= usuarios);

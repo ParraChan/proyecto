@@ -4,11 +4,12 @@ import { Router, RouterModule } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'cliente',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,CommonModule],
   templateUrl: './cliente.component.html'
 })
 export class ClienteComponent implements OnInit {
@@ -26,7 +27,10 @@ export class ClienteComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    
+  if (!this.authService.authenticated()) {
+    return;
+  }
     console.log('consulta findall');
       this.service.findAll().subscribe( clientes => this.clientes= clientes);
 

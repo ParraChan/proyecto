@@ -26,6 +26,9 @@ export class CreditoComponent implements OnInit {
     ){}
       
   ngOnInit(): void {
+     if (!this.authService.authenticated()) {
+    return; 
+  }
        if (this.authService.rol === 'ROLE_ASESOR') {
         
   const asesor = this.authService.asesor;

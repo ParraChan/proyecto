@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { Credito } from '../../models/credito';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
@@ -40,10 +40,14 @@ export class CreditosFormComponent implements OnInit {
     private route: ActivatedRoute,
     private service: CreditoService,
     public authService : AuthService,
+    private router : Router,
   ){
         this.credito = new Credito();
     }
   ngOnInit(): void {
+    if (!this.authService.authenticated()) {
+    return;
+  }
 
     if(this.authService.rol==='ROLE_CAPTURISTA'){
       this.credito.estatus_pago= 'Pendiente'
@@ -79,6 +83,7 @@ export class CreditosFormComponent implements OnInit {
     this.credito = new Credito();
     userForm.resetForm();
     userForm.reset();
+     this.router.navigate(['/clientes'])
   }
 
 }

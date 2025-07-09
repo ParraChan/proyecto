@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
 import { SharingDataService } from '../../services/sharing-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Rol } from '../../models/rol';
@@ -31,6 +31,7 @@ export class UsuarioFormComponent  implements OnInit{
       private route: ActivatedRoute,
       private service: UsuarioService,
       public authService : AuthService,
+      private router: Router,
     ){
         this.usuario = new Usuario();
         
@@ -39,6 +40,9 @@ export class UsuarioFormComponent  implements OnInit{
 
 
     ngOnInit(): void {
+      if (!this.authService.authenticated()) {
+    return;
+  }
 
     this.sharingData.errorsUserFormEventEmitter.subscribe(errors=> this.errors= errors);
     console.log(this.errors);
@@ -70,6 +74,7 @@ export class UsuarioFormComponent  implements OnInit{
       this.usuario= new Usuario();
         userForm.resetForm();
         userForm.reset();
+         this.router.navigate(['/clientes'])
   
     }
 

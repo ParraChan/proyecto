@@ -41,11 +41,8 @@ export class FinancieraAppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.service.findAll().subscribe(clientes => this.clientes = clientes);
-    this.serviceU.findAll().subscribe(usuarios => {
       this.serviceU.findAll().subscribe(usuarios => this.usuarios = usuarios);
 
-      this.usuarios = usuarios
-    });
     this.serviceC.findAll().subscribe(creditos => this.creditos = creditos);
     this.serviceR.findAll().subscribe(roles => {
       this.roles = roles
@@ -215,48 +212,67 @@ export class FinancieraAppComponent implements OnInit {
   }
 
   removeClient(): void {
-    this.sharingData.idClientEventEmitter.subscribe(id => {
-
-
-      Swal.fire({
-        title: "Estas seguro?",
-        text: "no hay marcha atras!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, borralo"
-      }).then((result) => {
-        if (result.isConfirmed) {
-
-          this.service.remove(id).subscribe(() => {
-            this.clientes = this.clientes.filter(cliente => cliente.id_cliente != id)
+  this.sharingData.idClientEventEmitter.subscribe(id => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No hay marcha atrás!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, borrarlo"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.remove(id).subscribe({
+          next: () => {
+            this.clientes = this.clientes.filter(cliente => cliente.id_cliente !== id);
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/clientes']);
             });
 
-          })
+            Swal.fire({
+              title: "Eliminado",
+              text: "El cliente se ha eliminado correctamente",
+              width: 600,
+              padding: "3em",
+              color: "#716add",
+              background: "#fff",
+              backdrop: `
+                rgba(0,0,123,0.4)
+                url("assets/img/SadNyan.webp")
+                left top
+                no-repeat
+              `
+            });
+          },
+          error: (err) => {
+            if (err.status === 409) {
+              Swal.fire({
+                icon: 'error',
+                title: 'No se puede eliminar',
+                text: err.error.error || 'El cliente tiene créditos asociados.',
+              });
+            } else if (err.status === 404) {
+              Swal.fire({
+                icon: 'info',
+                title: 'Cliente no encontrado',
+                text: 'El cliente ya fue eliminado o no existe.',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error inesperado al intentar eliminar al cliente.',
+              });
+            }
+          }
+        });
+      }
+    });
+  });
+}
 
-          Swal.fire({
-            title: "Eliminado",
-            text: "El cliente se ha eliminado correctamente",
-            width: 600,
-            padding: "3em",
-            color: "#716add",
-            background: "#fff", backdrop: `
-                            rgba(0,0,123,0.4)
-                            url("assets/img/SadNyan.webp")
-                            left top
-                            no-repeat
-                          `
-          });
-        }
-      });
-
-    })
-
-
-  }
+  
 
 
 

@@ -1,5 +1,6 @@
-<h3>{{title}}</h3>
 @if(authService.rol==='ROLE_SUPERVISOR' || authService.rol==='ROLE_CAPTURISTA'){
+<h3>{{title}}</h3>
+
 @if(clientes.length==0){
             <div class="alert alert-warning">No hay registros</div> 
             }@else {
@@ -10,8 +11,10 @@
                         <th>Apellido paterno</th>
                         <th>Apellido materno</th>
                         <th>Ingresos</th>
+                       @if(authService.rol === 'ROLE_CAPTURISTA'){
                         <th>Eliminar</th>
                         <th>Editar</th>
+                            }           
                     </tr>
                 </thead>
                 <tbody>
@@ -22,7 +25,9 @@
                         <td> {{cliente.apellido_paterno}}</td>
                         <td> {{cliente.apellido_materno}}</td>
                         <td> {{cliente.ingresos_mensuales}}</td>
+                        @if (authService.rol === 'ROLE_CAPTURISTA') {
                         <td>
+                            
                             <button class="btn btn-outline-danger btn-sm"
                             (click)="onRemoveClient(cliente.id_cliente)">
                                 Eliminar
@@ -33,12 +38,16 @@
                             [routerLink]="['/clientes/editar', cliente.id_cliente]">
                                 Editar
                             </button>
+                        
                         </td>
+                        }
                     </tr>
-
+                
                     }
                 
                 </tbody>
             </table>
 
-            }}
+            }}@else{
+                <div class="alert alert-danger">NO CUENTAS CON LOS PERMISO PARA ESTE RECURSO</div>
+            }

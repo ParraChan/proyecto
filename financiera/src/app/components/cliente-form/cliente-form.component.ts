@@ -2,14 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { SharingDataService } from '../../services/sharing-data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../services/cliente.service';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'cliente-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './cliente-form.component.html'
 })
 export class ClienteFormComponent implements OnInit {
@@ -24,11 +25,15 @@ export class ClienteFormComponent implements OnInit {
     private route: ActivatedRoute,
     private service: ClienteService,
     public authService : AuthService,
+    private router : Router,
   ){
     this.cliente = new Cliente();
 
   }
   ngOnInit(): void {
+    if (!this.authService.authenticated()) {
+    return;
+  }
 
     this.sharingData.errorsClientFormEventEmitter.subscribe(errors=> this.errors= errors);
 
@@ -56,6 +61,7 @@ export class ClienteFormComponent implements OnInit {
     this.cliente= new Cliente();
       userForm.resetForm();
       userForm.reset();
+      this.router.navigate(['/clientes'])
 
   }
 

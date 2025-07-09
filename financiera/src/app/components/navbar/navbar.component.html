@@ -1,6 +1,18 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Financiera "S"</a>
+
+    <!-- Nyan Cat GIF + Marca -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img
+        src="assets/img/cat.gif"
+        alt="Nyan Cat"
+        class="nyan-fly"
+        style="height: 40px; margin-right: 10px;"
+      />
+      Financiera "S"
+    </a>
+
+    <!-- Toggle -->
     <button
       class="navbar-toggler"
       type="button"
@@ -12,63 +24,79 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Links -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        @if(authService.rol==='ROLE_SUPERVISOR' || authService.rol==='ROLE_CAPTURISTA'){
+
+        <!-- Clientes -->
         <a
+          *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'"
           class="nav-link active"
           aria-current="page"
           [routerLink]="['/clientes']"
-          >Clientes</a
-        >}
-         @if(authService.rol==='ROLE_SUPERVISOR'){
+        >
+          Clientes
+        </a>
+
+        <!-- Usuarios -->
         <a
+          *ngIf="authService.rol === 'ROLE_SUPERVISOR'"
           class="nav-link active"
           aria-current="page"
           [routerLink]="['/usuarios']"
-          >Usuarios</a
         >
-         }
-         @if (authService.rol==='ROLE_SUPERVISOR' || authService.rol==='ROLE_CAPTURISTA' || authService.rol==='ROLE_ASESOR') {
-         <a
+          Usuarios
+        </a>
+
+        <!-- Créditos -->
+        <a
+          *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA' || authService.rol === 'ROLE_ASESOR'"
           class="nav-link active"
           aria-current="page"
           [routerLink]="['/creditos']"
-          >Creditos</a
         >
-        }
-       @if (authService.rol==='ROLE_CAPTURISTA') {
-             <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/clientes/crear']" 
-        >Agregar cliente</a>
+          Créditos
+        </a>
+
+        <!-- Agregar cliente -->
+        <li *ngIf="authService.rol === 'ROLE_CAPTURISTA'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/clientes/crear']">
+            Agregar cliente
+          </a>
         </li>
-      }
-        @if(authService.rol==='ROLE_SUPERVISOR'){
-         <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/usuarios/crear']"
-        >Agregar usuario</a>
+
+        <!-- Agregar usuario -->
+        <li *ngIf="authService.rol === 'ROLE_SUPERVISOR'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/usuarios/crear']">
+            Agregar usuario
+          </a>
         </li>
-      }
-        @if (authService.rol==='ROLE_CAPTURISTA') {
-        <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/creditos/crear']"
-         >Nuevo credito</a>
+
+        <!-- Nuevo crédito -->
+        <li *ngIf="authService.rol === 'ROLE_CAPTURISTA'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/creditos/crear']">
+            Nuevo crédito
+          </a>
         </li>
-      }
-      
       </div>
     </div>
+
+    <!-- Usuario logueado / login -->
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAuth">
-          <span class="nav-link nav-item text-primary mx-3">
-            @if (login.isAuth) {
-              {{login.usuario.nombreusuario}}
-             <button (click)="handlerLogout()" class="btn btn-outline-success">Cerrar sesion</button>
-            }@else {
-               <a  class="btn btn-outline-primary" [routerLink]="['/login']"
-            >Inicie sesion</a>
-            
-            }
-          </span>
+      <span class="nav-link nav-item text-primary mx-3">
+        <ng-container *ngIf="login.isAuth; else loginTemplate">
+          {{ login.usuario.nombreusuario }}
+          <button (click)="handlerLogout()" class="btn btn-outline-success ms-2">
+            Cerrar sesión
+          </button>
+        </ng-container>
+        <ng-template #loginTemplate>
+          <a class="btn btn-outline-primary" [routerLink]="['/login']">
+            Inicie sesión
+          </a>
+        </ng-template>
+      </span>
     </div>
   </div>
 </nav>
