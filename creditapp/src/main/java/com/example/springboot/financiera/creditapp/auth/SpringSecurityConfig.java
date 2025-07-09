@@ -57,7 +57,7 @@ public class SpringSecurityConfig {
         .requestMatchers(HttpMethod.GET,"/api/creditos/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.POST, "/api/creditos").hasRole("CAPTURISTA")
         .requestMatchers(HttpMethod.PUT, "/api/creditos/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
-        .requestMatchers(HttpMethod.DELETE, "/api/creditos/{id}").hasRole("CAPTURISTA")
+        .requestMatchers(HttpMethod.DELETE, "/api/creditos/{id}").hasAnyRole("CAPTURISTA","SUPERVISOR")
         .requestMatchers(HttpMethod.GET, "/api/creditos/asesor").hasRole("ASESOR")
         
 

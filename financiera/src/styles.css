@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+.nyan-runner {
+  position: absolute;
+  top: 10px;
+  left: -100px;
+  z-index: 10;
+  animation: nyanFly 8s linear infinite;
+}
+
+.nyan-runner img {
+  height: 40px;
+  animation: nyanWave 1.5s ease-in-out infinite;
+}
+
+/* Animación horizontal (de izquierda a derecha) */
+@keyframes nyanFly {
+  0% {
+    left: -120px;
+  }
+  100% {
+    left: 100vw;
+  }
+}
+
+/* Animación vertical (sube y baja) */
+@keyframes nyanWave {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
