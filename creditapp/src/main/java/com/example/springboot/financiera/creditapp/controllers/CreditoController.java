@@ -105,7 +105,7 @@ public class CreditoController {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @GetMapping("/creditos/asesor/{id}")
+    @GetMapping("/asesor/{id}")
     @PreAuthorize("hasRole('ASESOR')")
     public List<Credito> getCreditosByAsesor(@PathVariable Long id) {
         return creditoRepository.findByUsuarioIdUsuario(id);
