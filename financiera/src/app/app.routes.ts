@@ -11,11 +11,11 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
      
-    {
+    /*{
         path:'',
         pathMatch:'full',
         redirectTo: '/clientes'
-    },
+    },*/
 
     {
         path: 'clientes',

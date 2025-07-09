@@ -38,7 +38,7 @@ export class UsuarioComponent implements OnInit {
     this.sharingData.idUserEventEmitter.emit(id)
     }
        onSelectedUser(usuario: Usuario){
-        this.router.navigate(['/usuarios/editar',usuario.id_usuario]);
+        this.router.navigate(['/usuarios/editar',usuario.idUsuario]);
       }
 
     

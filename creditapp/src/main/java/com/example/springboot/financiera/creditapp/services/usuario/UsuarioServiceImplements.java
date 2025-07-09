@@ -76,7 +76,12 @@ public class UsuarioServiceImplements implements UsuarioService {
 }
     }
 
+    public Usuario findByNombreusuario(String nombreusuario) {
+    return usuarioRepository.findByNombreusuario(nombreusuario).orElseThrow();
+   
 
-    
+}
+
+
 
 }

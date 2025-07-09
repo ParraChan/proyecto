@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot.financiera.creditapp.entities.Usuario;
 import com.example.springboot.financiera.creditapp.models.UsuarioRequest;
+import com.example.springboot.financiera.creditapp.repositories.UsuarioRepository;
 import com.example.springboot.financiera.creditapp.services.usuario.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -34,6 +35,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
   
 
@@ -82,6 +86,15 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "No se encontro usuario para eliminar "));
 
     }
+    @GetMapping("/usuario/{username}")
+public ResponseEntity<Usuario> findByUsername(@PathVariable String username) {
+    Usuario usuario = usuarioRepository.findByNombreusuario(username).orElseThrow();
+    if (usuario != null) {
+        return ResponseEntity.ok(usuario);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 
 
 

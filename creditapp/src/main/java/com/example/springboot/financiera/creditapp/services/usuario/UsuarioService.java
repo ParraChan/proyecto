@@ -20,6 +20,12 @@ public interface UsuarioService {
 
     void deleteById(Long id_usuario);
 
-    
+
+     // ajusta al nombre real del campo
 }
+
+    
+
+    
+
 

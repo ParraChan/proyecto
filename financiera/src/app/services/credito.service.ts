@@ -37,4 +37,8 @@ export class CreditoService {
     return this.http.delete<void>(`${this.url}/${id}`)
 
   }
+  findByAsesorId(id: number): Observable<Credito[]> {
+  return this.http.get<Credito[]>(`${this.url}/asesor/${id}`);
+}
+
 }

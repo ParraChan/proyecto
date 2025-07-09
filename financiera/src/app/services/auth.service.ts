@@ -89,7 +89,21 @@ export class AuthService {
   }
 
   get idAsesor():number|null{
-     return this.asesorLog?.id_usuario || null;
+     return this.asesorLog?.idUsuario || null;
+  }
+
+  get asesor():string | null{
+    const token = this.token;
+    if(!token){
+      return null 
+    }try{
+      const payload = this.getPayload(token);
+      return payload?.sub || null;
+    }catch(e){
+      return null;
+
+    }
+
   }
 
 

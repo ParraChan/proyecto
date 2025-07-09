@@ -24,13 +24,13 @@
                         <td> {{usuario.puesto.nombre_rol}}</td>
                         <td>
                             <button class="btn btn-outline-danger btn-sm"
-                            (click)="onRemoveUser(usuario.id_usuario)">
+                            (click)="onRemoveUser(usuario.idUsuario)">
                                 Eliminar
                             </button>
                         </td>
                         <td>
                             <button class="btn btn-outline-info btn-sm"
-                            [routerLink]="['/usuarios/editar', usuario.id_usuario]">
+                            [routerLink]="['/usuarios/editar', usuario.idUsuario]">
                                 Editar
                             </button>
                         </td>

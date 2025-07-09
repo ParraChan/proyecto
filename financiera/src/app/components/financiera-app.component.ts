@@ -75,7 +75,7 @@ export class FinancieraAppComponent implements OnInit {
       this.authService.loginUsuario({ nombreusuario, contrasena }).subscribe({
         next: response => {
           const token = response.token;
-          //console.log(token);
+          console.log(token);
           const payload = this.authService.getPayload(token);
 
           //AQUI SE PARSEA LOS ROLESSSSSSS
@@ -106,7 +106,14 @@ export class FinancieraAppComponent implements OnInit {
           console.log(payload);
           this.authService.token = token;
           this.authService.usuario = login;
+          
+          
+          if(this.authService.rol==='ROLE_ASESOR'){
+            this.router.navigate(['/creditos']);
+          }else{
           this.router.navigate(['/clientes']);
+
+          }
 
         },
         error: error => {
@@ -140,7 +147,7 @@ export class FinancieraAppComponent implements OnInit {
 
   findUserById() {
     this.sharingData.findUserByIdEventEmitter.subscribe(id => {
-      const usuario = this.usuarios.find(usuario => usuario.id_usuario == id)
+      const usuario = this.usuarios.find(usuario => usuario.idUsuario == id)
 
       this.sharingData.selectUserEventEmitter.emit(usuario);
     })
@@ -256,10 +263,10 @@ export class FinancieraAppComponent implements OnInit {
   addUser() {
 
     this.sharingData.newUserEventEmitter.subscribe(usuario => {
-      if (usuario.id_usuario > 0) {
+      if (usuario.idUsuario > 0) {
         this.serviceU.update(usuario).subscribe({
           next: (usuarioUpdated) => {
-            this.usuarios = this.usuarios.map(u => (u.id_usuario == usuarioUpdated.id_usuario ? { ...usuarioUpdated } : u))
+            this.usuarios = this.usuarios.map(u => (u.idUsuario == usuarioUpdated.idUsuario ? { ...usuarioUpdated } : u))
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/usuarios']);
             })
@@ -333,7 +340,7 @@ export class FinancieraAppComponent implements OnInit {
         if (result.isConfirmed) {
           //console.log(id);
           this.serviceU.remove(id).subscribe(() => {
-            this.usuarios = this.usuarios.filter(usuario => usuario.id_usuario != id)
+            this.usuarios = this.usuarios.filter(usuario => usuario.idUsuario != id)
             this.router.navigate(['/actualizar'], { skipLocationChange: true }).then(() => {
               this.router.navigate(['/usuarios']);
             })

@@ -3,7 +3,7 @@
     <div class="card-header">
       <h5 class="card-title">
         Formato para
-        {{ usuario.id_usuario > 0 ? "actualizar" : "crear" }}
+        {{ usuario.idUsuario > 0 ? "actualizar" : "crear" }}
       </h5>
     </div>
     <div class="card-body">
@@ -84,7 +84,7 @@
             </option>
           </select>
         </div>
-        @if(usuario.id_usuario==0){
+        @if(usuario.idUsuario==0){
         <div>
           <input
             placeholder="Nombre de usuario"
@@ -115,7 +115,7 @@
             class="btn btn-primary m-2"
             [disabled]="userForm.invalid"
           >
-            {{ usuario.id_usuario ? "Actualizar" : "Crear" }}
+            {{ usuario.idUsuario ? "Actualizar" : "Crear" }}
           </button>
           <button class="btn btn-secondary my-2" (click)="onClear(userForm)">
             Limpiar

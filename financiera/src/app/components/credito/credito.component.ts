@@ -4,6 +4,7 @@ import { SharingDataService } from '../../services/sharing-data.service';
 import { Router, RouterModule } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
 import { AuthService } from '../../services/auth.service';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'credito',
@@ -20,11 +21,35 @@ export class CreditoComponent implements OnInit {
       private sharingData : SharingDataService,
       private router: Router,
       private service: CreditoService,
+      private serviceU: UsuarioService,
       public authService: AuthService,
     ){}
       
   ngOnInit(): void {
-        this.service.findAll().subscribe( creditos => this.creditos= creditos);
+       if (this.authService.rol === 'ROLE_ASESOR') {
+        
+  const asesor = this.authService.asesor;
+  console.log("Username desde token:", asesor);
+  if(asesor){
+    this.serviceU.findByUsername(asesor).subscribe(usuario=>{
+      console.log("USUARIO: ",usuario)
+      //this.authService.asesorLog=usuario;
+      const idAsesor = usuario.idUsuario;
+      console.log("ASESOR: ",idAsesor)
+      this.service.findByAsesorId(idAsesor).subscribe(
+        creditos=>this.creditos=creditos
+      );
+    });
+  }
+} else {
+  this.service.findAll().subscribe((creditos) => {
+      
+    (this.creditos = creditos)
+  console.log("CREDITOS : ",this.creditos)
+
+  });
+}
+
     
   }
   

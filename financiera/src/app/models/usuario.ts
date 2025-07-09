@@ -1,7 +1,7 @@
 import { Rol } from "./rol";
 
 export class Usuario{
-    id_usuario: number=0;
+    idUsuario: number=0;
     nombre!: string;
     apellido_paterno!:string;
     apellido_materno!:string;

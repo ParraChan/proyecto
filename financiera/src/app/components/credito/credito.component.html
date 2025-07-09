@@ -1,6 +1,6 @@
 <h3>{{title}}</h3>
 @if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA' || authService.rol==='ROLE_ASESOR'){
-    @if(authService.rol==='ROLE_ASESOR'){
+   
     @if(creditos.length==0){
             <div class="alert alert-warning">No hay registros</div> 
             }@else {
@@ -55,5 +55,5 @@
             </table>
 
             }
-        }
+        
         }

@@ -29,12 +29,15 @@ export class UsuarioService {
   }
 
   update(usuario: Usuario): Observable<Usuario>{
-    return this.http.put<Usuario>(`${this.url}/${usuario.id_usuario}`,usuario);
+    return this.http.put<Usuario>(`${this.url}/${usuario.idUsuario}`,usuario);
   }
 
   remove(id:number):Observable<void>{
     return this.http.delete<void>(`${this.url}/${id}`)
 
+  }
+  findByUsername(username: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.url}/usuario/${username}`);
   }
 
    
