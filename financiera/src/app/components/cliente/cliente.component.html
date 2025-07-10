@@ -2,7 +2,12 @@
 <h3>{{title}}</h3>
 
 @if(clientes.length==0){
-            <div class="alert alert-warning">No hay registros</div> 
+            <div class="spinner-grow" role="status">
+  <span class="visually-hidden">Cargando...</span>
+</div>
+<div class="spinner-grow" role="status">
+  <span class="visually-hidden">Cargando...</span>
+</div>
             }@else {
                 <table class="table table-hover table-striped">
                 <thead>
