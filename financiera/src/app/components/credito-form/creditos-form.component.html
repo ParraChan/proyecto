@@ -1,16 +1,24 @@
-<div *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'; else noAccess">
+<div
+  *ngIf="
+    authService.rol === 'ROLE_SUPERVISOR' ||
+      authService.rol === 'ROLE_CAPTURISTA';
+    else noAccess
+  "
+>
   <div class="card w-50">
     <div class="card-content">
       <div class="card-header">
         <h5 class="card-title">
-          Formato para {{ credito.id_credito > 0 ? "actualizar" : "nuevo" }} crédito
+          Formato para
+          {{ credito.id_credito > 0 ? "actualizar" : "nuevo" }} crédito
         </h5>
       </div>
       <div class="card-body">
         <form (ngSubmit)="onSubmit(userForm)" #userForm="ngForm">
-          
           <div class="mb-3 row align-items-center">
-            <label for="monto_credito" class="col-sm-4 col-form-label">Monto</label>
+            <label for="monto_credito" class="col-sm-4 col-form-label"
+              >Monto</label
+            >
             <div class="col-sm-8">
               <input
                 id="monto_credito"
@@ -18,14 +26,20 @@
                 name="monto_credito"
                 [(ngModel)]="credito.monto_credito"
                 class="form-control"
+                pattern="^\d{1,8}(\.\d{1,2})?$"
+                title="Hasta 8 dígitos enteros y 2 decimales"
                 [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
               />
-              <div *ngIf="errors?.monto_credito" class="text-danger">{{ errors.monto_credito }}</div>
+              <div *ngIf="errors?.monto_credito" class="text-danger">
+                {{ errors.monto_credito }}
+              </div>
             </div>
           </div>
 
           <div class="mb-3 row align-items-center">
-            <label for="fecha_entrega" class="col-sm-4 col-form-label">Fecha entrega</label>
+            <label for="fecha_entrega" class="col-sm-4 col-form-label"
+              >Fecha entrega</label
+            >
             <div class="col-sm-8">
               <input
                 type="date"
@@ -35,12 +49,16 @@
                 class="form-control"
                 [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
               />
-              <div *ngIf="errors?.fecha_entrega" class="text-danger">{{ errors.fecha_entrega }}</div>
+              <div *ngIf="errors?.fecha_entrega" class="text-danger">
+                {{ errors.fecha_entrega }}
+              </div>
             </div>
           </div>
 
           <div class="mb-3 row align-items-center">
-            <label for="numero_pagos" class="col-sm-4 col-form-label">Número de pagos</label>
+            <label for="numero_pagos" class="col-sm-4 col-form-label"
+              >Número de pagos</label
+            >
             <div class="col-sm-8">
               <select
                 id="numero_pagos"
@@ -49,15 +67,26 @@
                 class="form-control"
                 [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
               >
-                <option [ngValue]="null" disabled>Seleccione número de pagos</option>
-                <option *ngFor="let numero of numeroPagoOptions" [ngValue]="numero">{{ numero }}</option>
+                <option [ngValue]="null" disabled>
+                  Seleccione número de pagos
+                </option>
+                <option
+                  *ngFor="let numero of numeroPagoOptions"
+                  [ngValue]="numero"
+                >
+                  {{ numero }}
+                </option>
               </select>
-              <div *ngIf="errors?.numero_pagos" class="text-danger">{{ errors.numero_pagos }}</div>
+              <div *ngIf="errors?.numero_pagos" class="text-danger">
+                {{ errors.numero_pagos }}
+              </div>
             </div>
           </div>
 
           <div class="mb-3 row align-items-center">
-            <label for="frecuencia_pagos" class="col-sm-4 col-form-label">Frecuencia de pagos</label>
+            <label for="frecuencia_pagos" class="col-sm-4 col-form-label"
+              >Frecuencia de pagos</label
+            >
             <div class="col-sm-8">
               <select
                 id="frecuencia_pagos"
@@ -66,16 +95,29 @@
                 class="form-control"
                 [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
               >
-                <option [ngValue]="null" disabled>Seleccione la frecuencia de pago</option>
-                <option *ngFor="let frecuencia of frecuenciaPagoOptions" [ngValue]="frecuencia">{{ frecuencia | titlecase }}</option>
+                <option [ngValue]="null" disabled>
+                  Seleccione la frecuencia de pago
+                </option>
+                <option
+                  *ngFor="let frecuencia of frecuenciaPagoOptions"
+                  [ngValue]="frecuencia"
+                >
+                  {{ frecuencia | titlecase }}
+                </option>
               </select>
-              <div *ngIf="errors?.frecuencia_pagos" class="text-danger">{{ errors.frecuencia_pagos }}</div>
+              <div *ngIf="errors?.frecuencia_pagos" class="text-danger">
+                {{ errors.frecuencia_pagos }}
+              </div>
             </div>
           </div>
 
-          <ng-container *ngIf="authService.rol === 'ROLE_SUPERVISOR'; else capturistaStatus">
+          <ng-container
+            *ngIf="authService.rol === 'ROLE_SUPERVISOR'; else capturistaStatus"
+          >
             <div class="mb-3 row align-items-center">
-              <label for="estatus_pago" class="col-sm-4 col-form-label">Estatus de pago</label>
+              <label for="estatus_pago" class="col-sm-4 col-form-label"
+                >Estatus de pago</label
+              >
               <div class="col-sm-8">
                 <select
                   id="estatus_pago"
@@ -83,17 +125,33 @@
                   [(ngModel)]="credito.estatus_pago"
                   class="form-control"
                 >
-                  <option [ngValue]="null" disabled>Seleccione un estatus</option>
-                  <option *ngFor="let estatus of estatusPagoOptions" [ngValue]="estatus">{{ estatus }}</option>
+                  <option [ngValue]="null" disabled>
+                    Seleccione un estatus
+                  </option>
+                  <option
+                    *ngFor="let estatus of estatusPagoOptions"
+                    [ngValue]="estatus"
+                  >
+                    {{ estatus }}
+                  </option>
                 </select>
-                <div *ngIf="errors?.estatus_pago" class="text-danger">{{ errors.estatus_pago }}</div>
+                <div *ngIf="errors?.estatus_pago" class="text-danger">
+                  {{ errors.estatus_pago }}
+                </div>
               </div>
             </div>
           </ng-container>
 
           <ng-template #capturistaStatus>
-            <div class="form-control my-2" readonly>
-              Estatus de pago: {{ credito.estatus_pago }}
+            <div class="row mb-3 align-items-center">
+              <label for="estatus_pago" class="col-sm-4 col-form-label"
+                >Estatus de pago</label
+              >
+              <div class="col-sm-8">
+                <div class="form-control my-2 bg-light" readonly>
+                  {{ credito.estatus_pago }}
+                </div>
+              </div>
             </div>
           </ng-template>
 
@@ -107,18 +165,25 @@
                 class="form-control"
                 [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
               >
-                <option [ngValue]="null" disabled selected>Seleccione un cliente</option>
+                <option [ngValue]="null" disabled selected>
+                  Seleccione un cliente
+                </option>
                 <option *ngFor="let cliente of clientes" [ngValue]="cliente">
-                  {{ cliente.id_cliente }} ({{ cliente.nombre }} {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
+                  {{ cliente.id_cliente }} ({{ cliente.nombre }}
+                  {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
                 </option>
               </select>
-              <div *ngIf="errors?.cliente" class="text-danger">{{ errors.cliente }}</div>
+              <div *ngIf="errors?.cliente" class="text-danger">
+                {{ errors.cliente }}
+              </div>
             </div>
           </div>
 
           <ng-container *ngIf="authService.rol === 'ROLE_SUPERVISOR'">
             <div class="mb-3 row align-items-center">
-              <label for="usuario" class="col-sm-4 col-form-label">Asesor</label>
+              <label for="usuario" class="col-sm-4 col-form-label"
+                >Asesor</label
+              >
               <div class="col-sm-8">
                 <select
                   id="usuario"
@@ -126,7 +191,9 @@
                   [(ngModel)]="credito.usuario"
                   class="form-control"
                 >
-                  <option [ngValue]="null" disabled selected>Seleccione un usuario</option>
+                  <option [ngValue]="null" disabled selected>
+                    Seleccione un usuario
+                  </option>
                   <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
                     {{ usuario.nombre }} ({{ usuario.puesto.nombre_rol }})
                   </option>
@@ -137,15 +204,22 @@
 
           <div class="mb-3 row">
             <div class="col-sm-8 offset-sm-4">
-              <button type="submit" class="btn btn-primary m-2" [disabled]="userForm.invalid">
+              <button
+                type="submit"
+                class="btn btn-primary m-2"
+                [disabled]="userForm.invalid"
+              >
                 {{ credito.id_credito ? "Actualizar" : "Crear" }}
               </button>
-              <button type="button" class="btn btn-secondary m-2" (click)="onClear(userForm)">
+              <button
+                type="button"
+                class="btn btn-secondary m-2"
+                (click)="onClear(userForm)"
+              >
                 Limpiar
               </button>
             </div>
           </div>
-
         </form>
       </div>
     </div>
@@ -153,5 +227,7 @@
 </div>
 
 <ng-template #noAccess>
-  <div class="alert alert-danger">NO CUENTAS CON LOS PERMISOS PARA ESTE RECURSO</div>
+  <div class="alert alert-danger">
+    NO CUENTAS CON LOS PERMISOS PARA ESTE RECURSO
+  </div>
 </ng-template>

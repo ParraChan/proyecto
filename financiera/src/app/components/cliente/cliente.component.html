@@ -10,6 +10,7 @@
                         <th>Nombre</th>
                         <th>Apellido paterno</th>
                         <th>Apellido materno</th>
+                        <th>Fecha nacimiento</th>
                         <th>Ingresos</th>
                        @if(authService.rol === 'ROLE_CAPTURISTA'){
                         <th>Eliminar</th>
@@ -24,6 +25,7 @@
                         <td> {{cliente.nombre}} </td>
                         <td> {{cliente.apellido_paterno}}</td>
                         <td> {{cliente.apellido_materno}}</td>
+                        <td> {{cliente.fecha_nacimiento}}</td>
                         <td> {{cliente.ingresos_mensuales}}</td>
                         @if (authService.rol === 'ROLE_CAPTURISTA') {
                         <td>

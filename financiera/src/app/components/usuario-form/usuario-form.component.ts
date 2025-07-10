@@ -22,7 +22,8 @@ export class UsuarioFormComponent  implements OnInit{
     @Input() roles: Rol[]=[];
 
     errors: any={};
-
+    
+    maxDate: string='';
   
   
     constructor(
@@ -43,6 +44,9 @@ export class UsuarioFormComponent  implements OnInit{
       if (!this.authService.authenticated()) {
     return;
   }
+   const today = new Date();
+    today.setFullYear(today.getFullYear()-16);
+    this.maxDate = today.toISOString().split('T')[0];
 
     this.sharingData.errorsUserFormEventEmitter.subscribe(errors=> this.errors= errors);
     console.log(this.errors);

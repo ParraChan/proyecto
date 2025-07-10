@@ -16,6 +16,7 @@ export class AuthService {
     usuario: undefined,
   }
 
+  
   asesorLog: Usuario | null = null;
 
 
@@ -64,14 +65,19 @@ export class AuthService {
   get rol(){
     return this._usuario.usuario?.rol || null;
   }
+  getPayload(token: string): any {
+  const payload = token.split('.')[1];
+  return JSON.parse(atob(payload));
+}
 
+  /*
   getPayload(token: string){
     if(token!= null){
       return JSON.parse(atob(token.split(".")[1]))
     }
     return null;
   }
-
+*/
   authenticated(){
     return this.usuario.isAuth;
   }

@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +43,13 @@ public class UsuarioController {
   
 
     @GetMapping
+    @PreAuthorize("hasRole('SUPERVISOR')")
     public List<Usuario> list(){
         return usuarioService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('SUPERVISOR')")
     public ResponseEntity<?> showUsuario(@PathVariable Long id){
         Optional<Usuario> usuarOptional = usuarioService.findById(id);
         if(usuarOptional.isPresent()){
@@ -56,6 +59,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPERVISOR')")
     public ResponseEntity<?> create(@Valid @RequestBody Usuario usuario, BindingResult result){
         if (result.hasErrors()) {
             return validation(result);
@@ -64,6 +68,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPERVISOR')")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody UsuarioRequest usuario, BindingResult result){
         if (result.hasErrors()) return validation(result);
 
@@ -77,6 +82,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPERVISOR')")
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<Usuario> usuarOptional = usuarioService.findById(id);
         if(usuarOptional.isPresent()){
@@ -87,6 +93,7 @@ public class UsuarioController {
 
     }
     @GetMapping("/usuario/{username}")
+    @PreAuthorize("hasRole('SUPERVISOR')")
 public ResponseEntity<Usuario> findByUsername(@PathVariable String username) {
     Usuario usuario = usuarioRepository.findByNombreusuario(username).orElseThrow();
     if (usuario != null) {

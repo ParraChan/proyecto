@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,11 +37,13 @@ public class ClienteController {
     private ClienteService service;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'CAPTURISTA')")
     public List<Cliente> list(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'CAPTURISTA')")
     public ResponseEntity<?> showCliente(@PathVariable Long id){
          Optional<Cliente> clienteOpcional =service.findById(id);
          if(clienteOpcional.isPresent()){
@@ -50,6 +53,7 @@ public class ClienteController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'CAPTURISTA')")
     public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result){
        
          if (result.hasErrors()) {
@@ -59,6 +63,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'CAPTURISTA')")
     public ResponseEntity<?> update(@PathVariable Long id,@Valid @RequestBody Cliente cliente, BindingResult result) {
     
     
@@ -88,6 +93,7 @@ public class ClienteController {
        
     }*/
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERVISOR', 'CAPTURISTA')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
     Optional<Cliente> clienteOptional = service.findById(id);
 

@@ -1,10 +1,12 @@
 package com.example.springboot.financiera.creditapp.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -41,6 +43,8 @@ public class Cliente {
     private LocalDate fecha_nacimiento;
 
     @NotNull(message = "debes agregar tus ingresos")
+    @Digits(integer = 8, fraction = 2, message = "El valor debe tener como máximo 8 dígitos enteros y 2 decimales")
+    @Column(precision = 10, scale = 2)
     private BigDecimal ingresos_mensuales;
 
     @OneToMany(mappedBy = "cliente")

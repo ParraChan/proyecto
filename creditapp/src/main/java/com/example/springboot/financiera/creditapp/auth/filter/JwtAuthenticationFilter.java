@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -80,7 +81,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
                 Claims claims = Jwts
                     .claims()
-                    .add("authorities", new ObjectMapper().writeValueAsString(roles))
+                    .add("authorities", roles.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList()))
+                   // .add("authorities", new ObjectMapper().writeValueAsString(roles))
                     .add("username", username)
                 .build();
                 

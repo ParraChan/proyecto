@@ -59,6 +59,7 @@
                 type="date"
                 name="fecha_nacimiento"
                 [(ngModel)]="cliente.fecha_nacimiento"
+                [max]="maxDate"
                 class="form-control"
               />
               <div class="text-danger" *ngIf="errors?.fecha_nacimiento">{{ errors.fecha_nacimiento }}</div>
@@ -74,6 +75,8 @@
                 name="ingresos_mensuales"
                 [(ngModel)]="cliente.ingresos_mensuales"
                 class="form-control"
+                 pattern="^\d{1,8}(\.\d{1,2})?$"
+                title="Hasta 8 dígitos enteros y 2 decimales"
               />
               <div class="text-danger" *ngIf="errors?.ingresos_mensuales">{{ errors.ingresos_mensuales }}</div>
             </div>

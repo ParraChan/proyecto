@@ -74,19 +74,21 @@ export class FinancieraAppComponent implements OnInit {
           const token = response.token;
           console.log(token);
           const payload = this.authService.getPayload(token);
+          const authorities = payload.authorities;
+          const rol = authorities.length>0? authorities[0]:null;
 
           //AQUI SE PARSEA LOS ROLESSSSSSS
 
-          const rolSinLimpiar = payload.authorities;
+        //  const rolSinLimpiar = payload.authorities;
         //  console.log('ROL SUCIO ',rolSinLimpiar);
 
-          const rolLimpiado = rolSinLimpiar.replace(/\\/g, '');
+          //const rolLimpiado = rolSinLimpiar.replace(/\\/g, '');
          // console.log('ROL LIMPIO PERO SIN FORMATO',rolLimpiado);
 
-          const authorities = JSON.parse(rolLimpiado);
+         // const authorities = JSON.parse(rolLimpiado);
          // console.log( 'Yeison kkkkk: ',authorities);
 
-          const rol = authorities.length > 0 ? authorities[0].authority : null;
+          //const rol = authorities.length > 0 ? authorities[0].authority : null;
         //  console.log('ROL :D :', rol);
 
 

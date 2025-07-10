@@ -64,6 +64,7 @@
                 name="fecha_nacimiento"
                 [(ngModel)]="usuario.fecha_nacimiento"
                 class="form-control"
+                [max]="maxDate"
                 required
               />
               <div class="text-danger" *ngIf="errors?.fecha_nacimiento">{{ errors.fecha_nacimiento }}</div>

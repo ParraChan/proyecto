@@ -1,6 +1,7 @@
 package com.example.springboot.financiera.creditapp.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,8 +19,8 @@ public class Credito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_credito")
     private Long id_credito;
-
-    @Column(name = "monto_credito", nullable = false)
+    @Digits(integer = 8, fraction = 2, message = "El valor debe tener como máximo 8 dígitos enteros y 2 decimales")
+    @Column(name = "monto_credito", nullable = false, precision = 10, scale = 2)
     @NotNull(message = "El monto no puede estar vacio")
     private BigDecimal monto_credito;
 

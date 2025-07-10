@@ -18,6 +18,8 @@ export class ClienteFormComponent implements OnInit {
   @Input() cliente: Cliente;
 
   errors: any={};
+  
+  maxDate: string='';
 
 
   constructor(
@@ -34,6 +36,9 @@ export class ClienteFormComponent implements OnInit {
     if (!this.authService.authenticated()) {
     return;
   }
+    const today = new Date();
+    today.setFullYear(today.getFullYear()-16);
+    this.maxDate = today.toISOString().split('T')[0];
 
     this.sharingData.errorsClientFormEventEmitter.subscribe(errors=> this.errors= errors);
 
