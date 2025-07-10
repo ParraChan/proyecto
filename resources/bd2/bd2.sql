@@ -30,7 +30,7 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date NOT NULL,
   `ingresos_mensuales` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Martha','Aguirre','Lopez','1995-07-01',8634.40),(2,'Karim','Lopez','Hernandez','1968-12-12',20000.00),(3,'Maria','Fernandez','Morata','2000-07-23',15439.25),(12,'Maria Editado','hora','Hora','1995-07-01',3432.00),(16,'Israel','Marcial','Parra','1995-12-09',8500.00),(20,'Prueba','CLIENTE','EDITADO','1990-01-08',400000.00);
+INSERT INTO `clientes` VALUES (1,'Martha','Aguirre','Lopez','1995-07-01',8634.40),(2,'Karim','Lopez','Hernandez','1968-12-12',20000.00),(3,'Maria','Fernandez','Morata','2000-07-23',15439.25),(12,'Maria Editado','hora','Hora','1995-07-01',3432.00),(16,'Israel','Marcial','Parra','1995-12-09',8500.00),(20,'Prueba','CLIENTE','EDITADO','1990-01-08',400000.00),(21,'Alexis','Colorado','Fernandez','2005-04-26',20000.00),(24,'cliente1','cliente1P','cliente1M','2025-07-09',2112121.01);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `creditos` (
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `creditos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
   CONSTRAINT `creditos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +73,7 @@ CREATE TABLE `creditos` (
 
 LOCK TABLES `creditos` WRITE;
 /*!40000 ALTER TABLE `creditos` DISABLE KEYS */;
-INSERT INTO `creditos` VALUES (10,10000.00,'2026-12-01','16','semanal','Pendiente',16,NULL),(12,10000.00,'2025-01-01','12','semanal','Pendiente',1,NULL),(19,20.00,'2025-07-16','10','semanal','Pagado',2,28),(21,5000000.00,'2025-07-30','10','quincenal','Pendiente',20,NULL),(22,10000.00,'2025-06-03','12','quincenal','Pagado',20,29),(23,23900.00,'2025-07-25','24','mensual','Pendiente',20,NULL);
+INSERT INTO `creditos` VALUES (10,10000.00,'2026-12-01','16','semanal','Pendiente',16,NULL),(12,10000.00,'2025-01-01','12','semanal','Pendiente',1,NULL),(19,20.00,'2025-07-16','10','semanal','Pagado',2,28),(21,5000000.00,'2025-07-30','10','quincenal','Pendiente',20,NULL),(22,10000.00,'2025-06-03','12','quincenal','Pagado',20,29);
 /*!40000 ALTER TABLE `creditos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +121,7 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id_usuario`),
   KEY `usuarios_ibfk_1` (`id_rol`),
   CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Maleni','PRUEBA','Parra','1995-12-09','2025-01-12',1,'parrachan','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(2,'Carla','Fernandez','Lopez','1997-01-07','2024-01-04',1,'marilopez','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(26,'Astrid DENUEVO','Martiñon','Perez','1995-07-01','2025-06-09',2,'astrid','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(28,'Maria','Glgos','Garcia','1995-07-01','2025-06-09',3,'asesor01','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(29,'Prueba','Prueba','Prueba','2005-01-14','2025-07-02',3,'prueba01','$2a$10$OVRaMQP/1uFa9oNbPXusH.IU9Y6VTenzvgFllxea1XFthSfrr4eo6');
+INSERT INTO `usuarios` VALUES (1,'Maleni','edita','Parra','1995-12-09','2025-01-12',1,'parrachan','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(2,'Carla','Fernandez','Lopez','1997-01-07','2024-01-04',1,'marilopez','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(26,'Astrid DENUEVO','Martiñon','Perez','1995-07-01','2025-06-09',2,'astrid','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(28,'Maria','Glgos','Garcia','1995-07-01','2025-06-09',3,'asesor01','$2a$10$DOMDxjYyfZ/e7RcBfUpzqeaCs8pLgcizuiQWXPkU35nOhZlFcE9MS'),(29,'Prueba','Prueba','Prueba','2005-01-14','2025-07-02',3,'prueba01','$2a$10$OVRaMQP/1uFa9oNbPXusH.IU9Y6VTenzvgFllxea1XFthSfrr4eo6'),(30,'Marivi','Chavez','Cosme','1997-09-08','2025-07-09',2,'capturista01','$2a$10$S.ik0IeQ2or2uNrZWSaQ3OWtQJTInGdH33pWWkyErXOX7/LiaPtQG');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -143,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-09 12:36:20
+-- Dump completed on 2025-07-10 16:25:06

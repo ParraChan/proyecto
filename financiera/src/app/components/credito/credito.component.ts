@@ -5,11 +5,12 @@ import { Router, RouterModule } from '@angular/router';
 import { CreditoService } from '../../services/credito.service';
 import { AuthService } from '../../services/auth.service';
 import { UsuarioService } from '../../services/usuario.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'credito',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule,CommonModule],
   templateUrl: './credito.component.html'
 })
 export class CreditoComponent implements OnInit {

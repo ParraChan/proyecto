@@ -44,10 +44,21 @@ export class FinancieraAppComponent implements OnInit {
      /*if (!this.authService.authenticated()) {
     return;
   }*/
-    this.service.findAll().subscribe(clientes => this.clientes = clientes);
-      this.serviceU.findAll().subscribe(usuarios => this.usuarios = usuarios);
-
+    
+    
+    
+    if(this.authService.rol==="ROLE_SUPERVISOR"){ 
+    this.serviceU.findAll().subscribe(usuarios => this.usuarios = usuarios);
+      }
+      else if(this.authService.rol==="ROLE_SUPERVISOR" || "ROLE_CAPTURISTA" || "ROLE_ASESOR"){
     this.serviceC.findAll().subscribe(creditos => this.creditos = creditos);
+      
+        }
+    else if(this.authService.rol==="ROLE_SUPERVISOR" || "ROLE_CAPTURISTA" ){
+        this.service.findAll().subscribe(clientes => this.clientes = clientes);
+
+      }
+    
     this.serviceR.findAll().subscribe(roles => {
       this.roles = roles
       //console.log('Roles cargados ',this.roles)

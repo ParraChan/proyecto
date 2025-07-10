@@ -31,7 +31,7 @@
                         <td> {{cliente.apellido_paterno}}</td>
                         <td> {{cliente.apellido_materno}}</td>
                         <td> {{cliente.fecha_nacimiento}}</td>
-                        <td> {{cliente.ingresos_mensuales}}</td>
+                        <td> {{cliente.ingresos_mensuales| number:'1.0-0'}}</td>
                         @if (authService.rol === 'ROLE_CAPTURISTA') {
                         <td>
                             
