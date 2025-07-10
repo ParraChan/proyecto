@@ -51,10 +51,10 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
 
                      Claims claims = Jwts
                     .parser()
-                    .setSigningKey(SECRET_KEY)
+                    .verifyWith(SECRET_KEY)
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
                                
                     String username = claims.getSubject();
 

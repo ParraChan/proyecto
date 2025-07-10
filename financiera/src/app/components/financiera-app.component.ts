@@ -40,6 +40,10 @@ export class FinancieraAppComponent implements OnInit {
 
   }
   ngOnInit(): void {
+
+     /*if (!this.authService.authenticated()) {
+    return;
+  }*/
     this.service.findAll().subscribe(clientes => this.clientes = clientes);
       this.serviceU.findAll().subscribe(usuarios => this.usuarios = usuarios);
 
