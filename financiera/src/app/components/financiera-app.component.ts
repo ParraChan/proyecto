@@ -190,7 +190,9 @@ export class FinancieraAppComponent implements OnInit {
           error: (err) => {
 
             console.log(err.error);
-            this.sharingData.errorsClientFormEventEmitter.emit(err.error);
+            this.sharingData.errorsClientFormEventEmitter.emit({
+              errorFecha: err.error.error
+            });
 
           }
         }
@@ -210,7 +212,8 @@ export class FinancieraAppComponent implements OnInit {
 
           },
           error: (err) => {
-            console.log(err.error);
+            
+            console.log(err.error, err.status);
             this.sharingData.errorsClientFormEventEmitter.emit(err.error);
 
 

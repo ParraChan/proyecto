@@ -34,7 +34,11 @@ export class UsuarioComponent implements OnInit {
   }
     //this.rolUsuario = this.authService.rol;
    // console.log('ROL:', this.authService.rol);
-        this.service.findAll().subscribe(usuarios=> this.usuarios= usuarios);
+        this.service.findAll().subscribe(usuarios=> {
+          this.usuarios= usuarios.sort((a,b)=>
+          new Date(b.fecha_ingreso).getTime()- new Date(a.fecha_ingreso).getTime()
+          )
+        });
 
   }
   

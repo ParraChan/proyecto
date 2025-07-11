@@ -13,6 +13,8 @@
                         <th>Nombre</th>
                         <th>Apellido paterno</th>
                         <th>Apellido materno</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Fecha de ingreso</th>
                         <th>Rol</th>
                         <th>Eliminar</th>
                         <th>Editar</th>
@@ -22,9 +24,11 @@
                     @for (usuario of usuarios; track $index) {
 
                     <tr>
-                        <td> {{usuario.nombre}} </td>
+                        <td> {{usuario.nombre}}</td>
                         <td> {{usuario.apellido_paterno}}</td>
                         <td> {{usuario.apellido_materno}}</td>
+                        <td> {{usuario.fecha_nacimiento}}</td>
+                        <td> {{usuario.fecha_ingreso}}</td>
                         <td> {{usuario.puesto.nombre_rol}}</td>
                         <td>
                             <button class="btn btn-outline-danger btn-sm"

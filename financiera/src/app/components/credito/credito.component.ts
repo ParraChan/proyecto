@@ -52,7 +52,9 @@ export class CreditoComponent implements OnInit {
       }
     } else {
       this.service.findAll().pipe(take(1)).subscribe(creditos => {
-        this.creditos = creditos;
+        this.creditos = creditos.sort((a,b)=>
+        new Date(b.fecha_entrega).getTime() - new Date(a.fecha_entrega).getTime()
+        );
         this.actualizarFiltroCreditos();
       });
     }
@@ -62,6 +64,9 @@ export class CreditoComponent implements OnInit {
   const filtro = this.filtroCredito.toLowerCase().trim();
 
   this.creditosFiltrados = this.creditos.filter(credito => {
+    const asesorNombre = credito.usuario
+     ? `${credito.usuario.nombre} ${credito.usuario.apellido_paterno} ${credito.usuario.apellido_materno}`
+      : 'sin asesor';
     const campos = [
       credito.id_credito,
       credito.monto_credito,
@@ -74,7 +79,8 @@ export class CreditoComponent implements OnInit {
       credito.cliente?.apellido_materno,
       credito.usuario?.nombre,
       credito.usuario?.apellido_paterno,
-      credito.usuario?.apellido_materno
+      credito.usuario?.apellido_materno,
+      asesorNombre
     ];
 
     return campos.some(campo =>

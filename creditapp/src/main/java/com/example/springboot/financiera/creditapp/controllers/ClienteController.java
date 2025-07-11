@@ -1,5 +1,7 @@
 package com.example.springboot.financiera.creditapp.controllers;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +61,9 @@ public class ClienteController {
          if (result.hasErrors()) {
         return validation(result);
     }
+        if(Period.between(cliente.getFecha_nacimiento(), LocalDate.now()).getYears()<16){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("errorFecha", "Debe ser mayor a 16 años "));
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(cliente));
     }
 

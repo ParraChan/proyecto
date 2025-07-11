@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 
 import  static jakarta.persistence.GenerationType.*;
 
@@ -29,12 +30,15 @@ public class Cliente {
     private Long id_cliente;
 
     @NotEmpty(message = "El nombre no puede estar vacio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{1,50}$", message = "El nombre solo debe contener letras y espacios")
     private String nombre; 
 
     @NotEmpty(message = "El apellido paterno no puede estar vacio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{1,50}$", message = "El apellido paterno solo debe contener letras y espacios")
     private String apellido_paterno;
 
     @NotEmpty(message = "El apellido materno no puede estar vacio")
+    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{1,50}$", message = "El apellido materno solo debe contener letras y espacios")
     private String apellido_materno;
 
     @NotNull(message = "La fecha de nacimiento es obligatoria")

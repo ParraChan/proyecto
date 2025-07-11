@@ -155,29 +155,47 @@
             </div>
           </ng-template>
 
-          <div class="mb-3 row align-items-center">
-            <label for="cliente" class="col-sm-4 col-form-label">Cliente</label>
-            <div class="col-sm-8">
-              <select
-                id="cliente"
-                name="cliente"
-                [(ngModel)]="credito.cliente"
-                class="form-control"
-                [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
+          <ng-container *ngIf="credito.id_credito===0; else clienteAgregado">
+            <div class="mb-3 row align-items-center">
+              <label for="cliente" class="col-sm-4 col-form-label"
+                >Cliente</label
               >
-                <option [ngValue]="null" disabled selected>
-                  Seleccione un cliente
-                </option>
-                <option *ngFor="let cliente of clientes" [ngValue]="cliente">
-                  {{ cliente.id_cliente }} ({{ cliente.nombre }}
-                  {{ cliente.apellido_paterno }} {{ cliente.apellido_materno }})
-                </option>
-              </select>
-              <div *ngIf="errors?.cliente" class="text-danger">
-                {{ errors.cliente }}
+              <div class="col-sm-8">
+                <select
+                  id="cliente"
+                  name="cliente"
+                  [(ngModel)]="credito.cliente"
+                  class="form-control"
+                  [disabled]="authService.rol === 'ROLE_SUPERVISOR'"
+                >
+                  <option [ngValue]="null" disabled selected>
+                    Seleccione un cliente
+                  </option>
+                  <option *ngFor="let cliente of clientes" [ngValue]="cliente">
+                    {{ cliente.id_cliente }} ({{ cliente.nombre }}
+                    {{ cliente.apellido_paterno }}
+                    {{ cliente.apellido_materno }})
+                  </option>
+                </select>
+                <div *ngIf="errors?.cliente" class="text-danger">
+                  {{ errors.cliente }}
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
+
+          <ng-template #clienteAgregado>
+            <div class="row mb-3 align-items-center">
+              <label for="estatus_pago" class="col-sm-4 col-form-label"
+                >Cliente</label
+              >
+              <div class="col-sm-8">
+                <div class="form-control my-2 bg-light" readonly>
+                  {{ credito.cliente.nombre }} {{credito.cliente.apellido_paterno}} {{credito.cliente.apellido_materno}}
+                </div>
+              </div>
+            </div>
+          </ng-template>
 
           <ng-container *ngIf="authService.rol === 'ROLE_SUPERVISOR'">
             <div class="mb-3 row align-items-center">
@@ -213,10 +231,10 @@
               </button>
               <button
                 type="button"
-                class="btn btn-secondary m-2"
+                class="btn btn-danger m-2"
                 (click)="onClear(userForm)"
               >
-                Limpiar
+                Cancelar
               </button>
             </div>
           </div>
