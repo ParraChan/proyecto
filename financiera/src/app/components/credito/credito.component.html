@@ -1,70 +1,76 @@
-<h3>{{title}}</h3>
-@if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA' || authService.rol==='ROLE_ASESOR'){
-   
-    @if(creditos.length==0){
-        <div class="spinner-grow" role="status">
-  <span class="visually-hidden">Loading...</span>
-            </div>
-            }@else {
-                <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Monto credito</th>
-                        <th>Fecha de entrega</th>
-                        <th>Numero de pagos</th>
-                        <th>Frecuencia de pagos</th>
-                        <th>Estatus</th>
-                        <th>Cliente</th>
-                        <th>Asesor</th>
-                         @if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA'){
-                        <th>Eliminar</th>
-                        <th>Editar</th>
-                         }
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (credito of creditos; track $index) {
+<h3>{{ title }}</h3>
 
-                    <tr>
-                        <td> {{credito.id_credito}} </td>
-                        <td> {{credito.monto_credito | number:'1.0-0'}}</td>
-                        <td> {{credito.fecha_entrega}}</td>
-                        <td> {{credito.numero_pagos}}</td>
-                        <td> {{credito.frecuencia_pagos}}</td>
-                        <td [ngClass]="{
-      'text-success fw-bold': credito.estatus_pago === 'Pagado',
-      'text-danger fw-bold': credito.estatus_pago === 'Pendiente'
-    }"> {{credito.estatus_pago}}</td>
-                        <td>{{credito.cliente.nombre}} {{credito.cliente.apellido_paterno}} {{credito.cliente.apellido_materno}}</td>
-                        <td>
-  {{
-    credito.usuario
-      ? credito.usuario.nombre + ' ' + credito.usuario.apellido_paterno + ' ' + credito.usuario.apellido_materno
-      : 'Sin asesor'
-  }}
-</td>
-                        @if(authService.rol==='ROLE_SUPERVISOR' ||authService.rol==='ROLE_CAPTURISTA'){
-                        <td>
-                            <button class="btn btn-outline-danger btn-sm"
-                            (click)="onRemoveCredit(credito.id_credito)">
-                                Eliminar
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-info btn-sm"
-                            [routerLink]="['/creditos/editar', credito.id_credito]">
-                                Editar
-                            </button>
-                        </td>
-                    }
-                    </tr>
+<div *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA' || authService.rol === 'ROLE_ASESOR'; else noPermiso">
 
-                    }
-                
-                </tbody>
-            </table>
+  <div *ngIf="creditos.length === 0; else tablaCreditos" class="text-center my-3">
+    <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 
-            }
-        
-        }
+  <ng-template #tablaCreditos>
+    <input
+  type="text"
+  class="form-control my-3 w-25"
+  placeholder="Buscar crédito..."
+  [(ngModel)]="filtroCredito"
+  (ngModelChange)="actualizarFiltroCreditos()" />
+
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Monto crédito</th>
+          <th>Fecha de entrega</th>
+          <th>Número de pagos</th>
+          <th>Frecuencia de pagos</th>
+          <th>Estatus</th>
+          <th>Cliente</th>
+          <th>Asesor</th>
+          <th *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'">Eliminar</th>
+          <th *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'">Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let credito of creditosFiltrados">
+          <td>{{ credito.id_credito }}</td>
+          <td>{{ credito.monto_credito | number: '1.0-0' }}</td>
+          <td>{{ credito.fecha_entrega }}</td>
+          <td>{{ credito.numero_pagos }}</td>
+          <td>{{ credito.frecuencia_pagos }}</td>
+          <td [ngClass]="{
+                'text-success fw-bold': credito.estatus_pago === 'Pagado',
+                'text-danger fw-bold': credito.estatus_pago === 'Pendiente'
+              }">
+            {{ credito.estatus_pago }}
+          </td>
+          <td>{{ credito.cliente?.nombre }} {{ credito.cliente?.apellido_paterno }} {{ credito.cliente?.apellido_materno }}</td>
+          <td>
+            {{ credito.usuario 
+                ? credito.usuario.nombre + ' ' + credito.usuario.apellido_paterno + ' ' + credito.usuario.apellido_materno 
+                : 'Sin asesor' 
+            }}
+          </td>
+          <td *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'">
+            <button class="btn btn-outline-danger btn-sm" (click)="onRemoveCredit(credito.id_credito)">
+              Eliminar
+            </button>
+          </td>
+          <td *ngIf="authService.rol === 'ROLE_SUPERVISOR' || authService.rol === 'ROLE_CAPTURISTA'">
+            <button class="btn btn-outline-info btn-sm" [routerLink]="['/creditos/editar', credito.id_credito]">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="creditosFiltrados.length === 0 && filtroCredito" class="alert alert-warning mt-3">
+    No se encontraron creditos que coincidan con "{{ filtroCredito }}"
+  </div>
+  </ng-template>
+
+</div>
+
+<ng-template #noPermiso>
+  <div class="alert alert-danger">NO CUENTAS CON LOS PERMISOS PARA ESTE RECURSO</div>
+</ng-template>

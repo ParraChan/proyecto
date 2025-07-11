@@ -5,11 +5,13 @@ import { ClienteService } from '../../services/cliente.service';
 import { SharingDataService } from '../../services/sharing-data.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'cliente',
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule,CommonModule,FormsModule],
   templateUrl: './cliente.component.html'
 })
 export class ClienteComponent implements OnInit {
@@ -17,6 +19,11 @@ export class ClienteComponent implements OnInit {
   clientes : Cliente[]= [];
   
   title: string= 'Listado de Clientes';
+
+  clientesFiltrados: Cliente[] = [];
+  
+  filtroCliente: string = '';
+
 
   constructor(
     private sharingData : SharingDataService,
@@ -26,15 +33,29 @@ export class ClienteComponent implements OnInit {
   ){
 
   }
-  ngOnInit(): void {
-    
-  if (!this.authService.authenticated()) {
-    return;
+   ngOnInit(): void {
+    this.service.findAll()
+      .pipe(take(1)) 
+      .subscribe(clientes => {
+        this.clientes = clientes;
+        this.actualizarFiltroClientes();
+      });
   }
-    console.log('consulta findall');
-      this.service.findAll().subscribe( clientes => this.clientes= clientes);
+actualizarFiltroClientes(): void {
+    const filtro = this.filtroCliente.toLowerCase().trim();
 
+    this.clientesFiltrados = this.clientes.filter(cliente =>
+      Object.values(cliente).some(valor =>
+        valor && valor.toString().toLowerCase().includes(filtro)
+      )
+    );
   }
+
+
+
+
+
+ 
 
 
   onRemoveClient(id: number):void{
